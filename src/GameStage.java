@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 
 public class GameStage extends JFrame implements Runnable
 {	
-	private static final long serialVersionUID = 1L; //???
+	private static final long serialVersionUID = 1L;
 	private GamePanel gp;
 	private MapPanel mp;
 	private BearPanel bp;
@@ -15,20 +15,30 @@ public class GameStage extends JFrame implements Runnable
 	
 	private int score, winScore;
 
-	public GameStage(JFrame frame){
-		this.score = 0; this.winScore = 50; //need to modify later
+	public GameStage(){
+		this.score = 0; this.winScore = 300; //need to modify later
+		
+		this.setTitle("Testtttt");
+		this.setLayout(null);
+		this.setSize(1200,572);
+		this.setLocation(100,100);
+		this.setResizable(false);
+		this.setBackground(Color.CYAN);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		gp = new GamePanel(this);
 		mp = new MapPanel(this);
 		bp = new BearPanel(this);
-		frame.add(gp);
-		frame.add(mp);
-		frame.add(bp);
+		this.add(gp);
+		this.add(mp);
+		this.add(bp);
     	
 		game_thread = new Thread(gp);
 		game_thread.start();
 		bear_thread = new Thread(bp);
 		bear_thread.start();
+		
+		this.setVisible(true);
 	}
 	
 	public void setScore(int n){
