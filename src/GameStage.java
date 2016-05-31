@@ -7,16 +7,19 @@ import javax.swing.JLabel;
 public class GameStage extends JFrame implements Runnable
 {	
 	private static final long serialVersionUID = 1L;
-	private GamePanel gp;
+	private GamePanel gp; //state=0
 	private MapPanel mp;
 	private BearPanel bp;
+	private CarGameFrame c; //state=1
 	Thread game_thread;
 	Thread bear_thread;
 	
+	private int state;
 	private int score, winScore;
 
 	public GameStage(){
-		this.score = 0; this.winScore = 300; //need to modify later
+		score = 0; winScore = 300;
+		state=0;
 		
 		this.setTitle("Testtttt");
 		this.setLayout(null);
@@ -41,30 +44,31 @@ public class GameStage extends JFrame implements Runnable
 		this.setVisible(true);
 	}
 	
-	public void setScore(int n){
-		score = n;
+	public void setState(int n){
+		state = n;
 	}
-	public int getScore(){
-		return score;
-	}
-	public int getWinScore(){
-		return winScore;
-	}
+
 	
 	@Override
 	public void run(){
-		long lastTime = System.currentTimeMillis();
+		//long lastTime = System.currentTimeMillis();
 		int isEnding = 0, delay=40;
 		while(isEnding == 0){
+			if(score==winScore){
+				isEnding=1;
+			}
+			
+			if(state==1){
+				this.remove(gp);
+				c = new CarGameFrame();
+				this.add(c);
+			}
+			
 			try {
-				gp.repaint();
-				
-				if(score==winScore){
-					isEnding=1;
-					Thread.sleep(750);
-				}
-				lastTime = lastTime + delay;
-				Thread.sleep(Math.max(0, lastTime-System.currentTimeMillis()));
+				//gp.repaint();
+				Thread.sleep(750);
+				//lastTime = lastTime + delay;
+				//Thread.sleep(Math.max(0, lastTime-System.currentTimeMillis()));
 			} catch (InterruptedException e) {
 				//e.printStackTrace();
 			}

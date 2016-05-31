@@ -23,6 +23,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	private BufferedImage image_banana, image_ba;
 	
 	private JLabel label;
+	private int score, winScore;
+	private boolean isEnding;
 	private Random random;
 	
 	public int chX, chY, bananaX, bananaY;
@@ -37,6 +39,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		setBounds(0, 0, 900, 572);
     	setBackground(Color.WHITE);
     	setLayout(null);
+    	
+    	score = 0; winScore = 60;
+    	isEnding = false;
     	
     	setImage();
     	random = new Random();
@@ -53,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     	move_left = false; move_right = false;
     	
     	this.label = new JLabel();
-    	this.label.setText("Score: "+frame.getScore());
+    	this.label.setText("Score: "+getScore());
     	this.label.setBackground(Color.black);
     	this.label.setFont(new Font("Serif",Font.ITALIC+Font.BOLD,24));
     	this.label.setBounds(650, 10, 200, 40);
@@ -76,9 +81,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			System.out.println("CANNOT load images in GamePanel");
 		}
 	}
-	
+	public void setScore(int n){
+		score = n;
+	}
+	public int getScore(){
+		return score;
+	}
+	public int getWinScore(){
+		return winScore;
+	}
 	public void setScoreText(){
-    	this.label.setText("Score: "+frame.getScore());
+    	this.label.setText("Score: "+getScore());
     }
 	
 	protected void paintComponent(Graphics g) {
@@ -97,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	}
 	@Override
 	public void run(){
-		while(frame.getScore()<frame.getWinScore()){
+		while(!isEnding){
 			repaint();
 		    setScoreText();
 		    
@@ -139,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 					(ballX-image_ball.getWidth()-chX>-50) ){
 				ball_direction = "up";
 				ball_speed = -10;
-				frame.setScore(frame.getScore()+30);
+				setScore(getScore()+30);
 			}
 			//if the ball hits the ground
 			if(ballY==570){
@@ -157,7 +170,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 				while(bananaX<50){
 		    		bananaX = random.nextInt(750);
 		    	} bananaY = 0;
-				frame.setScore(frame.getScore()-50);
+				setScore(getScore()-50);
 				
 			} else{
 				banana_hit = false;
@@ -175,6 +188,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		    } 
 		    catch(InterruptedException e) {
 		    	//e.printStackTrace();
+		    }
+		    
+		    if(getScore()>=getWinScore()){
+		    	isEnding = true;
+		    	frame.setState(1);
 		    }
 		}
 		repaint();
