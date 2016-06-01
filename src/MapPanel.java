@@ -1,5 +1,5 @@
+import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,15 +8,15 @@ import java.awt.image.BufferedImage;
 
 import java.io.*;
 import javax.imageio.*;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 
 public class MapPanel extends JPanel implements Runnable
 {
 	private GameStage frame;
-	private BufferedImage image_map;
+	private ArrayList<BufferedImage> image_map;
+	private int map_index; //index for ArrayList image_map
+	public int mapX, mapY;
 
 	public MapPanel(GameStage gs)
 	{
@@ -25,25 +25,33 @@ public class MapPanel extends JPanel implements Runnable
     	setBackground(Color.cyan);
     	setLayout(null);
    	
+    	mapX = -6;
+    	mapY = -20;
+    	map_index = 0;
+    	image_map = new ArrayList<BufferedImage>();
     	setImage_right();
 	}
 	
 	public void setImage_right(){
 		try{
-			image_map=ImageIO.read(new File("materials/manp1.GIF"));
+			image_map.add( ImageIO.read(new File("materials/MapPic/00_Delta.jpg")) );
+			image_map.add( ImageIO.read(new File("materials/MapPic/01_Swim.jpg")) );
+			image_map.add( ImageIO.read(new File("materials/MapPic/02_Volley.jpg")) );
+			image_map.add( ImageIO.read(new File("materials/MapPic/03_Gym.jpg")) );
+			image_map.add( ImageIO.read(new File("materials/MapPic/04_Crossroad.jpg")) );
 		}
 		catch(IOException ex){
-			System.out.println("CANNOT load images in GamePanel");
+			System.out.println("CANNOT load images in MapPanel");
 		}
 	}
 	
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	    g.drawImage(this.image_map,0,0,null);
+	    g.drawImage(image_map.get(map_index),mapX,mapY,null);
 	}
 	@Override
 	public void run(){
-		while(frame.getScore()<frame.getWinScore()){
+		/*while(frame.getScore()<frame.getWinScore()){
 		    try {
 		    	Thread.sleep(30);
 		    } 
@@ -51,7 +59,7 @@ public class MapPanel extends JPanel implements Runnable
 		    	//e.printStackTrace();
 		    }
 		    repaint();
-		}
+		}*/
 		repaint();
 	}
 }

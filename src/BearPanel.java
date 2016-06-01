@@ -14,7 +14,7 @@ public class BearPanel extends JPanel implements Runnable
 {
 	private GameStage frame;
 	private ArrayList<BufferedImage> image_bear;
-	private int index; //index for ArrayList image_bear 
+	private int bear_index; //index for ArrayList image_bear 
 	public int bearX, bearY;
 
 
@@ -26,8 +26,8 @@ public class BearPanel extends JPanel implements Runnable
     	setLayout(null);
     	
     	bearX = -5;
-    	bearY = -15;
-    	index = 0;
+    	bearY = -17;
+    	bear_index = 0;
     	image_bear = new ArrayList<BufferedImage>();
     	setImage_right();
 	}
@@ -49,7 +49,7 @@ public class BearPanel extends JPanel implements Runnable
 
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	    g.drawImage(image_bear.get(index),bearX,bearY,null);
+	    g.drawImage(image_bear.get(bear_index),bearX,bearY,null);
 	}
 	@Override
 	public void run(){
