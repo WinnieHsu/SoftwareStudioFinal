@@ -1,67 +1,68 @@
+import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import java.io.*;
 import javax.imageio.*;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 
 public class BearPanel extends JPanel implements Runnable
 {
 	private GameStage frame;
-	private BufferedImage image_bear1;
-	
-	public int bearCurrentX;
-	public int bearCurrentY;
-	public String bearDirection;
+	private ArrayList<BufferedImage> image_bear;
+	private int bear_index; //index for ArrayList image_bear 
+	public int bearX, bearY;
 
 
 	public BearPanel(GameStage gs)
 	{
 		frame = gs;
 		setBounds(900, 222, 300, 350);
-    	//setBackground(Color.cyan);
+    	setBackground(Color.cyan);
     	setLayout(null);
     	
-    	this.bearCurrentX = -10;
-    	this.bearCurrentY = -20;
-    	this.bearDirection = "up";
-    	
+    	bearX = -5;
+    	bearY = -17;
+    	bear_index = 0;
+    	image_bear = new ArrayList<BufferedImage>();
     	setImage_right();
 	}
 	
 	public void setImage_right(){
 		try{
-			image_bear1=ImageIO.read(new File("materials/01_DancingBears.jpg"));
+			image_bear.add( ImageIO.read(new File("materials/BearPic/01_Bears.jpg")) );
+			image_bear.add( ImageIO.read(new File("materials/BearPic/02_Bears.jpg")) );
+			image_bear.add( ImageIO.read(new File("materials/BearPic/03_Bears.jpg")) );
+			image_bear.add( ImageIO.read(new File("materials/BearPic/04_Bears.jpg")) );
+			image_bear.add( ImageIO.read(new File("materials/BearPic/05_Bears.jpg")) );
+			image_bear.add( ImageIO.read(new File("materials/BearPic/06_Bears.jpg")) );
+			image_bear.add( ImageIO.read(new File("materials/BearPic/07_Bears.jpg")) );
 		}
 		catch(IOException ex){
-			System.out.println("CANNOT load images in GamePanel");
+			System.out.println("CANNOT load images in BearPanel");
 		}
 	}
 
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	    g.drawImage(this.image_bear1,bearCurrentX,bearCurrentY,null);
+	    g.drawImage(image_bear.get(bear_index),bearX,bearY,null);
 	}
 	@Override
 	public void run(){
-		while(frame.getScore()<frame.getWinScore()){
-			if(this.bearDirection == "up" && this.bearCurrentY > -10)
-				this.bearDirection = "down";
-		    else if(this.bearDirection == "down" && this.bearCurrentY < -50)
-		    	this.bearDirection = "up";
+		/*while(frame.getScore()<frame.getWinScore()){
+			if(this.duckDirection == "up" && this.duckCurrentY > -20)
+				this.duckDirection = "down";
+		    else if(this.duckDirection == "down" && this.duckCurrentY < 20)
+		    	this.duckDirection = "up";
 		
-			if(this.bearDirection == "up")
-				this.bearCurrentY++;
-			else if(this.bearDirection == "down")
-				this.bearCurrentY--;
+			if(this.duckDirection == "up")
+				this.duckCurrentY++;
+			else if(this.duckDirection == "down")
+				this.duckCurrentY--;
 		    try {
 		    	Thread.sleep(80);
 		    } 
@@ -69,7 +70,7 @@ public class BearPanel extends JPanel implements Runnable
 		    	//e.printStackTrace();
 		    }
 		    repaint();
-		}
+		}*/
 		repaint();
 	}
 }
