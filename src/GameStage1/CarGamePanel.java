@@ -33,11 +33,11 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 	private Car blue_car;
 	private Car truck;
 	
-	private Thread thread; 
+	public Thread thread; 
 	
 	public CarGamePanel() {
 		initial();
-		setBounds(0, 0, 800, 600);
+		setBounds(0, 0, 900, 572);
         setBackground(Color.white);
         setFocusable(true);
         setLayout(null);
@@ -45,7 +45,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     	requestFocus();
         addKeyListener(this);
         thread = new Thread(this);
-        thread.start();
+        
 		
 	}
 	
@@ -132,14 +132,14 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     					(int)(8*Math.sin(Math.toRadians(truck.getDegree())));
     		    truck.setCar_y(y);
     		}
-    		//System.out.println("move right "+truck.getCar_x()+" "+truck.getCar_y());
+    		
     	}
     	
     	else if((e.getKeyCode() == KeyEvent.VK_LEFT))
     	{
     		
     		direction = "left"; 
-    		//repaint();
+    		
     		int x;
     		int y;
     		if(truck.getDegree() <= 90 && truck.getDegree() >= -90)  
@@ -151,7 +151,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     					(int)(8*Math.sin(Math.toRadians(truck.getDegree())));
     		    truck.setCar_y(y);
     		}
-    		//System.out.println("move left "+truck.getCar_x()+" "+truck.getCar_y());
+    		
     	}
     	else if((e.getKeyCode() == KeyEvent.VK_UP))
     	{
@@ -169,7 +169,6 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     		    	truck.setDegree(truck.getDegree() + 5);
     		}
 	
-    		//System.out.println("degree down, up "+truck.getDegree());
     	}
     	else if((e.getKeyCode() == KeyEvent.VK_DOWN))
     	{
@@ -187,7 +186,6 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
         			truck.setDegree(truck.getDegree() + 5);
     		}
     		
-    		//System.out.println("degree up, down "+truck.getDegree());
     	}
     	
     }
@@ -216,8 +214,8 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 	
     @Override
 	public  void run(){
-		
-		while(stage < 3) {		
+		repaint();
+		while(stage <= 3) {		
 			if(stage == 1)
 			{		
 				
@@ -279,7 +277,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     	{
     		damage(blue_car);
     		label_blue_car.setText("HP "+blue_car.getHP());
-    		blue_car.setCar_x(750-blue_car.getImage().getWidth());
+    		blue_car.setCar_x(660-blue_car.getImage().getWidth());
     	}
     		
     	if(blue_car.getCar_x() < 15)
@@ -300,7 +298,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     	{
     		damage(blue_car);
     		label_blue_car.setText("HP "+blue_car.getHP());
-    		blue_car.setCar_y(480-blue_car.getImage().getHeight());
+    		blue_car.setCar_y(450-blue_car.getImage().getHeight());
     	}
     		
 		
@@ -329,22 +327,18 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 		    	v_x = blue_car.getCar_x()+ (int)(0.08*(truck.getCar_x()-blue_car.getCar_x()));
 		    	v_y = blue_car.getCar_y()+ (int)(0.08*(truck.getCar_y()-blue_car.getCar_y()));
 		    }
-		    //System.out.println(Math.sqrt(Math.abs(blue_car.getCar_x()-truck.getCar_x())*Math.abs(blue_car.getCar_x()-truck.getCar_x())
-					//+ Math.abs(blue_car.getCar_y()-truck.getCar_y())*Math.abs(blue_car.getCar_y()-truck.getCar_y())));
-		    
 		    
 		    
 		    blue_car.setCar_x(v_x);
 		    blue_car.setCar_y(v_y);
-		    //System.out.println("x: "+v_x + " " + truck.getCar_x());
-		    //System.out.println("y: "+v_y + " " + truck.getCar_y());
+		   
 		    
 		}
 		
 		
 	}
 	
-	private void crush_check(){//remain to solve 
+	private void crush_check() {
 		if(Math.abs(blue_car.getCar_x()-truck.getCar_x())*Math.abs(blue_car.getCar_x()-truck.getCar_x())
 			+ Math.abs(blue_car.getCar_y()-truck.getCar_y())*Math.abs(blue_car.getCar_y()-truck.getCar_y())
 			< blue_car.getImage().getWidth()*blue_car.getImage().getWidth())
@@ -362,12 +356,12 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 	
 	private void initial() {
 		
-		str_truck = "material/CarGame/truck.png";
-		str_truck_mirror = "material/CarGame/truck_left.jpg";
-		str_blue_car = "material/CarGame/blue_car.jpg";
-		str_blue_car_mirror = "material/CarGame/blue_car_right.jpg";
-		str_begin = "material/CarGame/farari.jpg";
-		str_over = "material/CarGame/over.png";
+		str_truck = "materials/CarGame/truck.png";
+		str_truck_mirror = "materials/CarGame/truck_left.jpg";
+		str_blue_car = "materials/CarGame/blue_car.jpg";
+		str_blue_car_mirror = "materials/CarGame/blue_car_right.jpg";
+		str_begin = "materials/CarGame/farari.jpg";
+		str_over = "materials/CarGame/over.png";
 		
 		truck = new Car(400,300,str_truck,str_truck_mirror);
 		blue_car = new Car(450,300, str_blue_car,str_blue_car_mirror);
@@ -401,7 +395,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     	label_blue_car.setFont(new Font("", Font.BOLD, 25));
     	label_blue_car.setBounds(600, 500, 180, 40);
     	
-    	time = 3000;
+    	time = 2000;
     	label_time.setText("Time : "+time/10);
     	label_time.setBackground(Color.black);
     	label_time.setFont(new Font("", Font.BOLD, 25));
@@ -429,7 +423,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 		blue_car.setCar_y(400);
 		blue_car.setHP(100);
 		direction = "right";
-		time = 3005; // set 3000, will see 299 first
+		time = 2005; // set 3000, will see 299 first
 		label_truck.setText("HP "+truck.getHP());
 		label_blue_car.setText("HP "+blue_car.getHP());
 		label_time.setText("Time : "+time/10);

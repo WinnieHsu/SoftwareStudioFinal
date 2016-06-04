@@ -1,4 +1,4 @@
-
+package Pacman;
 public class PacManMoving implements Runnable {
 	
 	private PacManPanel pmp;

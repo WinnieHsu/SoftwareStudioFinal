@@ -3,19 +3,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.*;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-
 import java.io.*;
 import javax.imageio.*;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
+
 
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
-	private GameStage frame;
+	//private GameStage frame;
 	private BufferedImage image_bg;
 	private BufferedImage image_net;
 	private BufferedImage image_character;
@@ -32,15 +29,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	public String ball_direction, ch_move;
 	private boolean banana_hit;
 	private boolean move_left, move_right;
-
-	public GamePanel(GameStage gs)
+	
+	public Thread thread;
+	
+	public boolean alive;
+	public GamePanel()
 	{
-		frame = gs;
+		//frame = gs;
 		setBounds(0, 0, 900, 572);
     	setBackground(Color.WHITE);
     	setLayout(null);
+    	setFocusable(true);
+    	requestFocus();
     	
-    	score = 0; winScore = 60;
+    	score = 0; winScore = 30;
     	isEnding = false;
     	
     	setImage();
@@ -49,7 +51,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     	ballX = random.nextInt(800);
     	while(ballX<50){
     		ballX = random.nextInt(800);
-    	} ballY = 0;
+    	} 
+    	ballY = 0;
     	ball_speed = 1;
     	ball_direction = "down";
     	ch_move = "";
@@ -57,19 +60,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     	banana_hit = false;
     	move_left = false; move_right = false;
     	
-    	this.label = new JLabel();
-    	this.label.setText("Score: "+getScore());
-    	this.label.setBackground(Color.black);
-    	this.label.setFont(new Font("Serif",Font.ITALIC+Font.BOLD,24));
-    	this.label.setBounds(650, 10, 200, 40);
-    	this.add(this.label);
+    	label = new JLabel();
+    	label.setText("Score: "+getScore());
+    	label.setBackground(Color.black);
+    	label.setFont(new Font("Serif",Font.ITALIC+Font.BOLD,24));
+    	label.setBounds(650, 10, 200, 40);
+    	add(label);
+    
     	
-    	frame.addKeyListener(this);
+    	alive = true;
+    	addKeyListener(this);
+    	thread = new Thread(this);
+    	
+    	//frame.addKeyListener(this);
 	}
 	
 	public void setImage(){
 		try{
-			//image_bg=ImageIO.read(new File("materials/blue-sky.jpg"));
 			image_bg=ImageIO.read(new File("materials/VolleyGame/sky_cartoon.png"));
 			image_net=ImageIO.read(new File("materials/VolleyGame/net_long.png"));
 			image_character=ImageIO.read(new File("materials/VolleyGame/bear1_black.png"));
@@ -91,25 +98,29 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		return winScore;
 	}
 	public void setScoreText(){
-    	this.label.setText("Score: "+getScore());
+    	label.setText("Score: "+getScore());
     }
 	
 	protected void paintComponent(Graphics g) {
-	    super.paintComponent(g);
-	    //g.drawImage(this.image_bg, -50, -300, null);
-	    g.drawImage(this.image_bg, 0, 0, null);
-	    g.drawImage(this.image_net, -1, 20, null);
-	    g.drawImage(this.image_character, chX, chY, null);
-	    g.drawImage(this.image_ball, ballX, ballY, null);
-	    if(banana_hit==false){
-	    	g.drawImage(this.image_banana, bananaX, bananaY, null);
-	    } else{
-	    	g.drawImage(this.image_ba, bananaX, bananaY, null);
-	    	//banana_hit = false;
-	    }
+			super.paintComponent(g);
+		    if(!isEnding)
+		    {
+		    	g.drawImage(this.image_bg, 0, 0, null);
+		    	g.drawImage(this.image_net, -1, 20, null);
+		        g.drawImage(this.image_character, chX, chY, null);
+		        g.drawImage(this.image_ball, ballX, ballY, null);
+		        if(banana_hit==false){
+		    	    g.drawImage(this.image_banana, bananaX, bananaY, null);
+		        } 
+		        else {
+		    	    g.drawImage(this.image_ba, bananaX, bananaY, null);
+		    	    //banana_hit = false;
+		        }
+		    }
 	}
 	@Override
 	public void run(){
+		System.out.println("GamePanel_run");
 		while(!isEnding){
 			repaint();
 		    setScoreText();
@@ -184,7 +195,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 			}
 
 		    try {
-		    	Thread.sleep(30);
+		    	Thread.sleep(40);
 		    } 
 		    catch(InterruptedException e) {
 		    	//e.printStackTrace();
@@ -192,19 +203,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		    
 		    if(getScore()>=getWinScore()){
 		    	isEnding = true;
-		    	frame.setState(1);
+		    	//frame.setState(1);
 		    }
 		}
+		alive = false;
+		exit();
 		repaint();
-		setScoreText();
+		
 	}
 	
-	public void keyTyped(KeyEvent key) {
-    	return;
-    }
+	private void exit() {
+		remove(label);
+		removeKeyListener(this);
+		setBackground(null);
+	}
+	
+	public void keyTyped(KeyEvent key) { };
+    
+	
+	public void keyReleased(KeyEvent key) { };
+	
      
     public void keyPressed(KeyEvent key) {
     	if((key.getKeyCode() == KeyEvent.VK_LEFT)){
+    		System.out.println("left");
     		ch_move = "left";
     		move_left = true;
     	}
@@ -212,12 +234,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     		ch_move = "right";
     		move_right = true;
     	}
-    	else if((key.getKeyCode()==KeyEvent.VK_SPACE)){
-    		//stop = true;
-    	}
+    	
     }
-     
-    public void keyReleased(KeyEvent key) {
-        return;
-    }
+    
 }

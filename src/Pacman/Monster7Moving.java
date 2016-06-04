@@ -1,3 +1,4 @@
+package Pacman;
 import java.util.Random;
 
 public class Monster7Moving implements Runnable {

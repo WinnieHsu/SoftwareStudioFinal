@@ -1,3 +1,4 @@
+package Pacman;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
@@ -24,22 +25,22 @@ public class PacMan implements Runnable {
 	
 	public PacMan(JFrame frame) {
 		try {
-			image_block =  ImageIO.read(new File("materials/Pacman/block.png"));
-			image_block_lock =  ImageIO.read(new File("materials/Pacman/block_lock.png"));
-			image_rectangle =  ImageIO.read(new File("materials/Pacman/rectangle.png"));
-			image_pacman_origin =  ImageIO.read(new File("materials/Pacman/pacman_origin.png"));
-			image_pacman_up =  ImageIO.read(new File("materials/Pacman/pacman_up.png"));
-			image_pacman_down =  ImageIO.read(new File("materials/Pacman/pacman_down.png"));
-			image_pacman_left =  ImageIO.read(new File("materials/Pacman/pacman_left.png"));
-			image_pacman_right =  ImageIO.read(new File("materials/Pacman/pacman_right.png"));
-			image_monster1 =  ImageIO.read(new File("materials/Pacman/monster1.png"));
-			image_monster2 =  ImageIO.read(new File("materials/Pacman/monster2.png"));
-			image_monster3 =  ImageIO.read(new File("materials/Pacman/monster3.png"));
-			image_monster4 =  ImageIO.read(new File("materials/Pacman/monster4.png"));	
-			image_monster5 =  ImageIO.read(new File("materials/Pacman/monster5.png"));
-			image_monster6 =  ImageIO.read(new File("materials/Pacman/monster6.png"));
-			image_monster7 =  ImageIO.read(new File("materials/Pacman/monster7.png"));
-			image_monster8 =  ImageIO.read(new File("materials/Pacman/monster8.png"));	
+			image_block =  ImageIO.read(new File("material/Pacman/block.png"));
+			image_block_lock =  ImageIO.read(new File("material/Pacman/block_lock.png"));
+			image_rectangle =  ImageIO.read(new File("material/Pacman/rectangle.png"));
+			image_pacman_origin =  ImageIO.read(new File("material/Pacman/pacman_origin.png"));
+			image_pacman_up =  ImageIO.read(new File("material/Pacman/pacman_up.png"));
+			image_pacman_down =  ImageIO.read(new File("material/Pacman/pacman_down.png"));
+			image_pacman_left =  ImageIO.read(new File("material/Pacman/pacman_left.png"));
+			image_pacman_right =  ImageIO.read(new File("material/Pacman/pacman_right.png"));
+			image_monster1 =  ImageIO.read(new File("material/Pacman/monster1.png"));
+			image_monster2 =  ImageIO.read(new File("material/Pacman/monster2.png"));
+			image_monster3 =  ImageIO.read(new File("material/Pacman/monster3.png"));
+			image_monster4 =  ImageIO.read(new File("material/Pacman/monster4.png"));	
+			image_monster5 =  ImageIO.read(new File("material/Pacman/monster5.png"));
+			image_monster6 =  ImageIO.read(new File("material/Pacman/monster6.png"));
+			image_monster7 =  ImageIO.read(new File("material/Pacman/monster7.png"));
+			image_monster8 =  ImageIO.read(new File("material/Pacman/monster8.png"));	
 		} catch (IOException e) {
 			System.out.println("No Picture");
 		}

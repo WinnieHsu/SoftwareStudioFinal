@@ -26,15 +26,7 @@ public class CarGameFrame extends JFrame{
 	    setResizable(false);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setVisible(true);
-	    
-	    
+   
 	}
 	
-	private void change_scenes() {
-		//thread_CarGP = new Thread(CarGP);
-	    //thread_TP = new Thread(TP);
-		//thread_CarGP.start();
-		//thread_TP.start();
-		
-	}
 }
