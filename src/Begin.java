@@ -11,19 +11,21 @@ import javax.swing.JPanel;
 
 public class Begin extends JPanel implements Runnable
 {
-	private GameStage frame;
+	//private GameStage frame;
 	private ArrayList<BufferedImage> image_bg;
 	private int bg_index;
 	private int bgX, bgY;
 	private int state;
 	private boolean isEnding;
 	
+	public boolean alive;
+	public Thread thread;
 	//private FileInputStream soundFile;
 	//private AudioStream sound;
 	
-	public Begin(GameStage gs)
+	public Begin()
 	{
-		frame = gs;
+		//frame = gs;
 		setBounds(0, 0, 900, 572);
     	setBackground(Color.WHITE);
     	setLayout(null);
@@ -32,9 +34,10 @@ public class Begin extends JPanel implements Runnable
 		bgX = 0; bgY = 0;
 		image_bg = new ArrayList<BufferedImage>();
 		setImage();
-		
+		alive = true;
 		state = 0;
 		isEnding = false;
+		thread = new Thread(this);
 	}
 	
 	private void setImage(){
@@ -177,14 +180,17 @@ public class Begin extends JPanel implements Runnable
 			if(state==9){
 				bg_index=9;
 				repaint();
+				isEnding = true;
 				try {
-			    	Thread.sleep(80);
+			    	Thread.sleep(30);
 			    } 
 			    catch(InterruptedException e) {}
 				//state=0;
 			}
 			repaint();
 		}
+		System.out.println("begining over");
+		alive = false;
 		repaint();
 	}
 }

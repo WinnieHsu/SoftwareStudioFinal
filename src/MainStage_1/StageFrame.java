@@ -10,8 +10,9 @@ public class StageFrame extends JFrame{
 	private static StagePanel_4 P4;
 	
 	public StageFrame() {
-		P2 = new StagePanel_2();
-		getContentPane().add(P2);
+		P4 = new StagePanel_4();
+		P4.thread.start();
+		getContentPane().add(P4);
 		setTitle("Stage");
 		setLayout(null);
 		setSize(1000,600);

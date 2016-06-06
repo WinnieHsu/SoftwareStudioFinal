@@ -1,7 +1,6 @@
 package MainStage_1;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.imageio.ImageIO;
@@ -13,27 +12,26 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 	private JButton but_bottles;
 	private JButton but_GarbageBags2;
 	private JButton but_leftoff;
-	private JButton but_midoff;
-	private ImageIcon SwimPool_bothoff;
-	
-	private ImageIcon SwimPool;
+	private JButton but_midoff;	
 	
 	private Image_trigger bottles;
 	private Image_trigger GarbageBags2;
 	private Image_trigger SwimPool_leftoff;
 	private Image_trigger SwimPool_midoff;
-	
-	private ImageIcon left_tree;
-	private ImageIcon right_tree;
-	
+		
 	private int character_x;
 	private int character_y;
 	private int destination_x;
+	private int destination_y;
+	private character ch;
 	
 	private BufferedImage image_bg;
-	private BufferedImage image_ch;
+	private BufferedImage img_left_tree;
+	private BufferedImage img_right_tree;
 	
-	private Thread thread;
+	private boolean[] trigger_list;
+	
+	public Thread thread;
 	
 	public boolean alive;
 	
@@ -45,23 +43,26 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 		if (e.getSource() == but_bottles){
 			if(bottles.getOn_off() == false)
 			{
+				trigger_list[0] = true;
 				destination_x = bottles.getX();
 				bottles.chageOn_off();
 			}
-			
 		}
 		if (e.getSource() == but_GarbageBags2){
 			if(GarbageBags2.getOn_off() == false)
 			{
+				trigger_list[1] = true;
 				destination_x = GarbageBags2.getX()+GarbageBags2.getImage().getIconWidth();
 				GarbageBags2.chageOn_off();
 			}
 		}
 		
-		if (e.getSource() == but_leftoff) {
+		if (e.getSource() == but_leftoff && trigger_list[1] == true && character_x <= 400 ) {
+			trigger_list[2] = true;
 			remove(but_leftoff);
 		}
-		if (e.getSource() == but_midoff) {
+		if (e.getSource() == but_midoff && trigger_list[1] == true && character_x <= 400) {
+			trigger_list[3] = true;
 			remove(but_midoff);
 		}
 	}
@@ -69,7 +70,16 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image_bg, 0, 0, null);
-		g.drawImage(image_ch, character_x, character_y, null);
+		if(ch.getcounter()%2 == 1)
+		{
+			g.drawImage(ch.getImage_1(), character_x, character_y, null);
+		}
+		else
+		{
+			g.drawImage(ch.getImage_2(), character_x, character_y, null);
+		}
+		g.drawImage(img_left_tree, 132, 0, null);
+		g.drawImage(img_right_tree, 630, 0, null);
 	}
 	
 	private void loadImage() {
@@ -84,9 +94,13 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 		
 		try {
 			File bg = new File(str+"01_SwimPool_bothoff.jpg");
-			File ch = new File(str+"sleepwalker.jpg");
+			File left_tree = new File(str+"left_tree.png");
+			File right_tree = new File(str+"right_tree.png");
 		    image_bg = ImageIO.read(bg);
-		    image_ch = ImageIO.read(ch);
+		    img_left_tree = ImageIO.read(left_tree);
+		    img_right_tree = ImageIO.read(right_tree);
+		    
+		    
 		}
 		catch(Exception e) {
 			System.out.println("wrong in background");
@@ -103,31 +117,39 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 				bottles.getImage().getIconWidth(), bottles.getImage().getIconHeight());
 		but_bottles.setBackground(null);
 		but_bottles.addActionListener(this);
+		but_bottles.setOpaque(true);
+		trigger_list[0] = false;
 		
 		but_GarbageBags2.setBounds(GarbageBags2.getX(), GarbageBags2.getY(), 
 				GarbageBags2.getImage().getIconWidth(), GarbageBags2.getImage().getIconHeight());
 		but_GarbageBags2.setBackground(null);
 		but_GarbageBags2.addActionListener(this);
+		trigger_list[1] = false;
 		
 		but_leftoff.setBounds(SwimPool_leftoff.getX(), SwimPool_leftoff.getY(), 
 				SwimPool_leftoff.getImage().getIconWidth(), SwimPool_leftoff.getImage().getIconHeight());
 		but_leftoff.setBackground(null);
 		but_leftoff.addActionListener(this);
+		trigger_list[2] = false;
 		
 		but_midoff.setBounds(SwimPool_midoff.getX(), SwimPool_midoff.getY(), 
 				SwimPool_midoff.getImage().getIconWidth(), SwimPool_midoff.getImage().getIconHeight());
 		but_midoff.setBackground(null);
 		but_midoff.addActionListener(this);
+		trigger_list[3] = false;
+		
+		
 	}
 	
 	@Override
 	public void run() {
-		while(character_x >= 10){
-			
+		
+		while(character_x >= 1){			
 			move();
 			remove_button();
+			moveout();
 			try {
-				Thread.sleep(10);
+				Thread.sleep(12);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -142,23 +164,29 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 	private void move() {
 		if(character_x > destination_x) 
 		{		
+			ch.setcounter(ch.getcounter()+1);
+			System.out.println(ch.getcounter());
 			character_x-=3;
+			if(character_x <= 400)
+				destination_y = 330;
 		}
+		if(character_y < destination_y)
+			character_y++;
 		
 	}
 	
 	private void remove_button() {
-		if(Math.abs(character_x - (bottles.getX()+bottles.getImage().getIconWidth()/2)) < 2 )
+		if(Math.abs(character_x - (bottles.getX()+bottles.getImage().getIconWidth()/2)) < 2 && trigger_list[0] == true)
 			remove(but_bottles);
 		if(Math.abs(character_x - (GarbageBags2.getX()+GarbageBags2.getImage().getIconWidth())) < 2)
 		{
 			remove(but_GarbageBags2);
-			moveout();
 		}	
 	}
 	
 	private void moveout() {
-		destination_x = 5;
+		if(trigger_list[1] == true)
+		destination_x = 1;
 	}
 	
 	
@@ -170,11 +198,15 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
         setFocusable(true);
         
         loadImage();
+        trigger_list = new boolean[4];
         setButtons();
+        ch = new character("materials/character");
         
-        character_x = 870;
-        character_y = 380;
-        destination_x = 870;
+        
+        character_x = 840;
+        character_y = 300;
+        destination_x = 860;
+        destination_y = 300;
         alive = true;
         
         add(but_bottles);
@@ -182,6 +214,7 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 		add(but_leftoff);
 		add(but_midoff);
 		thread = new Thread(this);
-		thread.start();
+		
+		
 	}
 }

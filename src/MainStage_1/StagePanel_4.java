@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -11,20 +13,19 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class StagePanel_4 extends JPanel implements Runnable, ActionListener {
-	private JButton but_bottle;
-	private JButton but_can;
-	private JButton but_leftoff;
-	
-	private Image_trigger bottle;
-	private Image_trigger can;
-	private Image_trigger leftoff;
+public class StagePanel_4 extends JPanel implements Runnable, MouseMotionListener {
+	private Image_trigger pyramidal;
+	private Image_trigger sprinkler;
+	private Image_trigger garbage;
 	
 	private BufferedImage image_bg;
 	
 	private int character_x;
+	private int character_y;
 	
-	private Thread thread;
+	private character ch;
+	
+	public Thread thread;
 	
 	public StagePanel_4() {
 		initial();
@@ -34,19 +35,28 @@ public class StagePanel_4 extends JPanel implements Runnable, ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image_bg, 0, 0, null);
-		
+		if(ch.getcounter()%2 == 1)
+		{
+			g.drawImage(ch.getImage_1(), character_x, character_y, null);
+		}
+		else
+		{
+			g.drawImage(ch.getImage_2(), character_x, character_y, null);
+		}
 	}
 	
 	private void loadImage() {
-		String str = "material/MainScene/02/";
+		String str = "materials/MainScene/04/";
 		
-		bottle = new Image_trigger(770,440,str+"bottle.jpg");
-		can = new Image_trigger(385,415,str+"can.jpg");	
-		leftoff = new Image_trigger(552,0,str+"lightoff.jpg");
+		pyramidal = new Image_trigger(564,400,str+"pyramidal.png");
+		sprinkler =new Image_trigger(564,400,str+"sprinkler.png");
+		garbage = new Image_trigger(564,400,str+"garbage.png");
+		
+		
 		
 		try {
-			//File bg = new File(str+"02_sample.jpg");
-			File bg = new File(str+"02_VolleyCourt_lightoff.jpg");
+			File bg = new File(str+"04_sample.jpg");
+			//File bg = new File(str+"02_VolleyCourt_lightoff.jpg");
 			//File ch = new File(str+"sleepwalker.jpg");
 		    image_bg = ImageIO.read(bg);
 		    //image_ch = ImageIO.read(ch);
@@ -55,36 +65,9 @@ public class StagePanel_4 extends JPanel implements Runnable, ActionListener {
 			System.out.println("wrong in background");
 		}
 	}
-	
-	private void setButtons() {
-		but_bottle = new JButton("", bottle.getImage());
-		but_can = new JButton("", can.getImage());
-		but_leftoff = new JButton("", leftoff.getImage());
-				
-		but_bottle.setBounds(bottle.getX(), bottle.getY(),
-				bottle.getImage().getIconWidth(), bottle.getImage().getIconHeight());
-		but_bottle.setBackground(null);
-		but_bottle.addActionListener(this);
 		
-		but_can.setBounds(can.getX(), can.getY(), 
-				can.getImage().getIconWidth(), can.getImage().getIconHeight());
-		but_can.setBackground(null);
-		but_can.addActionListener(this);
-		
-		but_leftoff.setBounds(leftoff.getX(), leftoff.getY(), 
-				leftoff.getImage().getIconWidth(), leftoff.getImage().getIconHeight());
-		but_leftoff.setBackground(null);
-		but_leftoff.addActionListener(this);
-		
-		
-	}
-	
 	private void move() {
 			
-	}
-	
-	private void remove_button() {
-		
 	}
 	
 	public void actionPerformed(ActionEvent e){
@@ -92,11 +75,23 @@ public class StagePanel_4 extends JPanel implements Runnable, ActionListener {
 	}
 	
 	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Get mouse dragged position and change suqare's position
+		character_x = e.getX();
+		character_y = e.getY();
+		repaint();
+	}
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// No need to implement
+	}
+	
+	@Override
 	public void run() {
 		while(character_x < 900){
 			
 			move();
-			remove_button();
+			
 			try {
 				Thread.sleep(100);
 			}
@@ -116,13 +111,11 @@ public class StagePanel_4 extends JPanel implements Runnable, ActionListener {
         
         character_x = 10;
         
+        ch = new character("materials/character");
+        
         loadImage();
-        setButtons();
-        add(but_bottle);
-		add(but_can);
-		add(but_leftoff);
 		
 		thread = new Thread(this);
-		thread.start();
+		
 	}
 }
