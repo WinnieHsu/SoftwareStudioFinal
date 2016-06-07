@@ -118,44 +118,38 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 	}
 	
 	private void move() {
-		if((character_x > destination_x)  && (character_y > destination_y+5))
+		int change = 0;
+		if(character_y > destination_y && character_x > destination_x)
 		{
+			change++;	
+			character_x-=2;
+			character_y--;
 			
-			ch.setcounter(ch.getcounter()+1);
-			character_x-=3;
-			character_y-=2;
 		}
-		if((character_x > destination_x) && (character_y < destination_y) ) 
+		if(character_y < destination_y && character_x > destination_x) 
 		{
-			ch.setcounter(ch.getcounter()+1);
-			character_x-=3;
-			character_y+=3;
+			change++;
+			character_x--;
+			character_y++;
 		}
-		if((character_x > destination_x) && (character_y == destination_y))
-		{
-			System.out.println("RRR");
+		if(change > 0)
 			ch.setcounter(ch.getcounter()+1);
-			character_x-=3;
-		}
-		
 	}
 	
 	private void remove_button() {
-		if(Math.abs(character_x - (paper.getX()+paper.getImage().getIconWidth())) < 2 && trigger_list[0] == true)
+		if(Math.abs(character_x - (paper.getX()+paper.getImage().getIconWidth())) < 3 && trigger_list[0] == true)
 			remove(but_paper);
 		if(Math.abs(character_x - (right_off.getX()+right_off.getImage().getIconWidth())) < 2 && trigger_list[4] == true)
 			remove(but_rightoff);
-		if(Math.abs(character_x - (drink.getX()+ drink.getImage().getIconWidth())) < 2 && trigger_list[2] == true)
+		if(Math.abs(character_x - (drink.getX()+ drink.getImage().getIconWidth())) < 3 && trigger_list[2] == true)
 		{
-			remove(but_drink);
-			destination_y = character_y;
-			System.out.println("AAA");
+			remove(but_drink);			
 		}
-		if(Math.abs(character_x - (can.getX()+ can.getImage().getIconWidth())) < 2 && trigger_list[1] == true)
+		if(Math.abs(character_x - (can.getX()+ can.getImage().getIconWidth())) < 3 && trigger_list[1] == true)
 		{
 			remove(but_can);
 		}
-		if(Math.abs(character_x - (left_off.getX()+ left_off.getImage().getIconWidth())) < 2 && trigger_list[3] == true)
+		if(Math.abs(character_x - (left_off.getX()+ left_off.getImage().getIconWidth())) < 3 && trigger_list[3] == true)
 		{
 			remove(but_leftoff);
 		}
@@ -178,6 +172,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 			{
 				trigger_list[1] = true;
 				destination_x = can.getX()+can.getImage().getIconWidth();
+				destination_y = can.getY();
 				can.chageOn_off();
 			}
 		}
@@ -186,7 +181,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 			if(drink.getOn_off() == false)
 			{
 				trigger_list[2] = true;
-			    destination_x = drink.getX() + drink.getImage().getIconWidth();
+			    destination_x = drink.getX()+20; //+ drink.getImage().getIconWidth();
 			    destination_y = drink.getY();
 			    drink.chageOn_off();
 			    
@@ -208,7 +203,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 			{
 				trigger_list[4] = true;
 			    destination_x = right_off.getX() + right_off.getImage().getIconWidth();
-			    destination_y = right_off.getY() - right_off.getImage().getIconHeight();
+			    destination_y = right_off.getY() - right_off.getImage().getIconHeight()/3;
 			    right_off.chageOn_off();
 			}
 		}
@@ -244,7 +239,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
         character_x = 850;
         character_y = 455;
         destination_x = 850;
-        destination_y = 450;
+        destination_y = 455;
         alive = true;
         
         loadImage();

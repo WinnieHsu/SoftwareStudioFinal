@@ -49,17 +49,23 @@ public class MapPanel extends JPanel implements Runnable
 	    super.paintComponent(g);
 	    g.drawImage(image_map.get(map_index),mapX,mapY,null);
 	}
+	
+	public void setIndex(int i) {
+		map_index = i;
+	}
+	
 	@Override
 	public void run(){
-		/*while(frame.getScore()<frame.getWinScore()){
-		    try {
-		    	Thread.sleep(30);
-		    } 
-		    catch(InterruptedException e) {
+		//while(true){
+		//while(frame.getScore()<frame.getWinScore()){
+		    //try {
+		    	//Thread.sleep(30);
+		    //} 
+		    //catch(InterruptedException e) {
 		    	//e.printStackTrace();
-		    }
+		    //}
 		    repaint();
-		}*/
-		repaint();
+		//}
+		//repaint();
 	}
 }

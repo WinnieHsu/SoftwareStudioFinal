@@ -1,6 +1,7 @@
 import GameStage1.*;
 import VolleyGame.*;
 import MainStage_1.*;
+import Menu.*;
 
 import java.awt.Color;
 
@@ -10,9 +11,13 @@ public class GameStage extends JFrame implements Runnable
 {	
 	private static final long serialVersionUID = 1L;
 	 //state=0
+	private Menu menu;
+	private Rules rules;
 	private MapPanel mp;
 	private BearPanel bp;
 	private static Begin begin;
+	private static Win win;
+	private static Lose lose;
 	private static CarGamePanel cp; //state=1
 	private static VolleyPanel vp;
 	private static StagePanel_1 P1;
@@ -38,7 +43,11 @@ public class GameStage extends JFrame implements Runnable
 		this.setBackground(Color.CYAN);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		begin = new Begin();		
+		menu = new Menu(this);
+		rules = new Rules(menu);
+		begin = new Begin();
+		win  = new Win();
+		lose = new Lose();
 		vp = new VolleyPanel();
 		cp = new CarGamePanel();
 		P1 = new StagePanel_1();
@@ -46,9 +55,10 @@ public class GameStage extends JFrame implements Runnable
 		P3 = new StagePanel_3();
 		mp = new MapPanel(this);
 		bp = new BearPanel(this);
-		Begining();
+		//Begining();
 		//this.add(c);
 		
+		this.add(menu);
 		this.add(mp);
 		this.add(bp);
 			
@@ -89,6 +99,12 @@ public class GameStage extends JFrame implements Runnable
 			if(vp.alive == false && state == 3) {
 				open_Stage3();
 			}
+			if(P3.alive == false && state == 4) {
+				open_Win();
+			}
+			if(win.alive == false && state == 10) {
+				open_Lose();
+			}
 			
 			//if()
 			
@@ -114,12 +130,15 @@ public class GameStage extends JFrame implements Runnable
 		this.getContentPane().remove(begin);
 		P1.thread.start();
 		mp.setIndex(1);
+		mp.repaint();
 		this.getContentPane().add(P1);
 		state = 0;
 	}
 	
 	private void open_cargame() {
 		System.out.println("In open_car");
+		bp.setIndex(P1.score);
+		bp.repaint();
 		this.getContentPane().remove(P1);
 		
 		cp.thread.start();
@@ -155,6 +174,27 @@ public class GameStage extends JFrame implements Runnable
 		mp.repaint();
 		this.getContentPane().add(P3);
 		state = 4;
+	}
+	
+	private void open_Win() {
+		System.out.println("In Win");
+		this.getContentPane().remove(P3);
+		
+		win.thread.start();
+		mp.setIndex(0);
+		mp.repaint();
+		this.getContentPane().add(win);
+		state = 10;
+	}
+	private void open_Lose() {
+		System.out.println("In Lose");
+		//this.getContentPane().remove(vp);
+		
+		lose.thread.start();
+		//mp.setIndex(0);
+		//mp.repaint();
+		this.getContentPane().add(lose);
+		state = 11;
 	}
 }
 

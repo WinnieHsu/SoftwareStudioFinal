@@ -51,6 +51,11 @@ public class BearPanel extends JPanel implements Runnable
 	    super.paintComponent(g);
 	    g.drawImage(image_bear.get(bear_index),bearX,bearY,null);
 	}
+	
+	public void setIndex(int i) {
+		bear_index = i;
+	}
+	
 	@Override
 	public void run(){
 		/*while(frame.getScore()<frame.getWinScore()){

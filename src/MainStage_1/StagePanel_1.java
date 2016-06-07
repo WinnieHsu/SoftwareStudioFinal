@@ -33,6 +33,7 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 	
 	public Thread thread;
 	
+	public int score;
 	public boolean alive;
 	
 	public StagePanel_1() {
@@ -157,7 +158,9 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 			repaint();
 		}
 		alive = false;
+		check_trigger();
 		repaint();
+		System.out.println(score);
 		System.out.println("Thread out");
 	}
 	
@@ -189,6 +192,15 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 		destination_x = 1;
 	}
 	
+	private void check_trigger(){
+		int i;
+		for(i=0; i < 4; i++){
+			if(trigger_list[i]  == false)
+			{
+				score++;
+			}
+		}
+	}
 	
 	private void initial() {
 		setBounds(0, 0, 900, 572);
@@ -202,7 +214,7 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
         setButtons();
         ch = new character("materials/character");
         
-        
+        score = 0;
         character_x = 840;
         character_y = 300;
         destination_x = 860;
@@ -214,7 +226,6 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 		add(but_leftoff);
 		add(but_midoff);
 		thread = new Thread(this);
-		
 		
 	}
 }

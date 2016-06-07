@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class Lose extends JPanel implements Runnable
 {
-	private GameStage frame;
+	//private GameStage frame;
 	private ArrayList<BufferedImage> image_bg;
 	private int bg_index;
 	private int bgX, bgY;
@@ -19,12 +19,14 @@ public class Lose extends JPanel implements Runnable
 	private boolean isEnding;
 	private int i, j, k;
 	
+	public boolean alive;
+	public Thread thread;
 	//private FileInputStream soundFile;
 	//private AudioStream sound;
 	
-	public Lose(GameStage gs)
+	public Lose()
 	{
-		frame = gs;
+		//frame = gs;
 		setBounds(0, 0, 900, 572);
     	setBackground(Color.WHITE);
     	setLayout(null);
@@ -34,9 +36,11 @@ public class Lose extends JPanel implements Runnable
 		image_bg = new ArrayList<BufferedImage>();
 		setImage();
 		
+		alive = true;
 		state = 0;
 		i=0; j=0; k=0;
 		isEnding = false;
+		thread = new Thread(this);
 	}
 	
 	private void setImage(){
@@ -219,6 +223,7 @@ public class Lose extends JPanel implements Runnable
 			
 			repaint();
 		}
+		alive = false;
 		repaint();
 	}
 }
