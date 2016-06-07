@@ -1,4 +1,5 @@
 package Pacman;
+
 public class ObstacleStateRecord {
 	
 	PacManPanel pmp;
@@ -26,7 +27,7 @@ public class ObstacleStateRecord {
 		
 		
 		
-		pmp.obstacle_state[1][1] = ObstacleState.LOCK;  // ??��
+		pmp.obstacle_state[1][1] = ObstacleState.LOCK;  // 浩
 		pmp.obstacle_state[2][1] = ObstacleState.LOCK;
 		pmp.obstacle_state[1][4] = ObstacleState.LOCK;
 		pmp.obstacle_state[2][4] = ObstacleState.LOCK;
@@ -66,7 +67,7 @@ public class ObstacleStateRecord {
 		
 		
 		
-		pmp.obstacle_state[17][1] = ObstacleState.LOCK;  // �
+		pmp.obstacle_state[17][1] = ObstacleState.LOCK;  // 全
 		pmp.obstacle_state[17][2] = ObstacleState.LOCK;
 		pmp.obstacle_state[16][2] = ObstacleState.LOCK;
 		pmp.obstacle_state[15][2] = ObstacleState.LOCK;

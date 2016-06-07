@@ -1,4 +1,8 @@
 package Pacman;
+
+import TrashThrow.TrashThrow;
+import Menu.Menu;
+
 import javax.swing.JFrame;
 import java.awt.Color;
 
@@ -16,6 +20,11 @@ public class Main {
 		PacMan pacman = new PacMan(frame);
 		Thread pm_thread = new Thread(pacman);
 		pm_thread.start();
+		/*Menu menu = new Menu(frame);
+		frame.add(menu);*/
+		/*TrashThrow trash_throw = new TrashThrow(frame);
+		Thread trash_throw_thread = new Thread(trash_throw);
+		trash_throw_thread.start();*/
 		frame.setVisible(true);
 	}
 }

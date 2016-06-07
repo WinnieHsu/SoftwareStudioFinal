@@ -1,4 +1,5 @@
 package Pacman;
+
 public class PacManMoving implements Runnable {
 	
 	private PacManPanel pmp;
@@ -10,7 +11,7 @@ public class PacManMoving implements Runnable {
 	}
 	
 	public void run() {
-		while (true) {
+		while (pmp.pacman.getPoints() != 8) {
 			int count = 0;
 			switch (pmp.pacman.pacman_state) {
 				case UP:
