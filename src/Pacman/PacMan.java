@@ -21,9 +21,13 @@ public class PacMan implements Runnable {
 	private int points = 0;
 	protected int pm_x, pm_y;
 	public boolean alive;
+	public Thread thread;
+	private JFrame frame;
 	
 	public PacMan(JFrame frame) {
+		this.frame = frame;
 		alive = true;
+		thread = new Thread(this);
 		try {
 			image_block =  ImageIO.read(new File("materials/Pacman/block.png"));
 			image_block_lock =  ImageIO.read(new File("materials/Pacman/block_lock.png"));
@@ -33,6 +37,7 @@ public class PacMan implements Runnable {
 			image_pacman_down =  ImageIO.read(new File("materials/Pacman/pacman_down.png"));
 			image_pacman_left =  ImageIO.read(new File("materials/Pacman/pacman_left.png"));
 			image_pacman_right =  ImageIO.read(new File("materials/Pacman/pacman_right.png"));
+			
 			for (int i=0; i<8; i++) {
 				String str = "materials/Pacman/monster" + i + ".png";
 				image_monster[i] = ImageIO.read(new File(str));
@@ -40,8 +45,8 @@ public class PacMan implements Runnable {
 		} catch (IOException e) {
 			System.out.println("No Picture");
 		}
-		pmp = new PacManPanel(this, frame);
-		frame.add(pmp);
+		//pmp = new PacManPanel(this, frame);
+		//frame.add(pmp);
 	}
 	
 	public int getPoints() {
@@ -54,6 +59,8 @@ public class PacMan implements Runnable {
 	}
 	
 	public void run() {
+		pmp = new PacManPanel(this, frame);
+		frame.add(pmp);
 		while (getPoints() != 8) {
 			try {
 				Thread.sleep(3);
@@ -61,6 +68,7 @@ public class PacMan implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("out");
 		alive = false;
 	}
 	

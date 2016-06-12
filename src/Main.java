@@ -9,7 +9,7 @@ public class Main {
 		//Menu menu = new Menu(gs);
 		//gs.add(menu);
 		Thread game_thread = new Thread(gs);
-		//game_thread.start();
+		game_thread.start();
 		
 	}
 }

@@ -1,7 +1,9 @@
 import GameStage1.*;
 import VolleyGame.*;
 import MainStage_1.*;
+import Pacman.*;
 import Menu.*;
+import TrashThrow.*;
 
 import java.awt.Color;
 
@@ -15,11 +17,14 @@ public class GameStage extends JFrame implements Runnable
 	private Rules rules;
 	private MapPanel mp;
 	private BearPanel bp;
-	private static Begin begin;
+	protected static Begin begin;
 	private static Win win;
 	private static Lose lose;
 	private static CarGamePanel cp; //state=1
 	private static VolleyPanel vp;
+	private static PacMan pap;
+	private static TrashThrow tp;
+	private static TrashThrowPanel ttp;
 	private static StagePanel_1 P1;
 	private static StagePanel_2 P2;
 	private static StagePanel_3 P3;
@@ -29,13 +34,14 @@ public class GameStage extends JFrame implements Runnable
 	
 	private int state;
 	private int score, winScore;
-	
+	private boolean pap_boolean;
 
 	public GameStage(){
 		score = 0; winScore = 20;
 		state=-1;
+		pap_boolean = true;
 		
-		this.setTitle("Testtttt");
+		this.setTitle("Demo");
 		this.setLayout(null);
 		this.setSize(1200,572);
 		this.setLocation(100,100);
@@ -50,20 +56,22 @@ public class GameStage extends JFrame implements Runnable
 		lose = new Lose();
 		vp = new VolleyPanel();
 		cp = new CarGamePanel();
+		tp = new TrashThrow();
+		pap = new PacMan(this);
+		ttp = new TrashThrowPanel(tp);
 		P1 = new StagePanel_1();
 		P2 = new StagePanel_2();
 		P3 = new StagePanel_3();
+		P4 = new StagePanel_4();
 		mp = new MapPanel(this);
 		bp = new BearPanel(this);
-		//Begining();
-		//this.add(c);
-		
-		this.add(menu);
+		Begining();	
+		//this.add(menu);
 		this.add(mp);
 		this.add(bp);
 			
 		bear_thread = new Thread(bp);
-		bear_thread.start();
+		//bear_thread.start();
 		this.setVisible(true);
 	}
 	
@@ -84,10 +92,13 @@ public class GameStage extends JFrame implements Runnable
 		
 		int isEnding = 0;
 		while(isEnding == 0){
+			
 			if(begin.alive == false && state == -1) {
-				open_Stage1();
+				
+				open_Stage1();	
 			}
 			if(P1.alive == false && state == 0){
+				
 				open_cargame();
 			}
 			if(cp.alive == false && state == 1) {				
@@ -99,17 +110,23 @@ public class GameStage extends JFrame implements Runnable
 			if(vp.alive == false && state == 3) {
 				open_Stage3();
 			}
+			
 			if(P3.alive == false && state == 4) {
 				open_Win();
+				//open_trashgame();
 			}
 			if(win.alive == false && state == 10) {
+				open_pacman();
+			}
+			/*
+			if(pap.alive == false && state == 5) {
 				open_Lose();
 			}
+			*/
 			
-			//if()
 			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(100);
 				
 			} catch (InterruptedException e) {
 				//e.printStackTrace();
@@ -122,7 +139,6 @@ public class GameStage extends JFrame implements Runnable
 		System.out.println("In Begining");
 		begin.thread.start();
 		this.getContentPane().add(begin);
-		
 	}
 	
 	private void open_Stage1() {
@@ -175,6 +191,31 @@ public class GameStage extends JFrame implements Runnable
 		this.getContentPane().add(P3);
 		state = 4;
 	}
+	private void open_pacman() {
+		System.out.println("In pacman");
+		this.getContentPane().remove(win);
+		pap.thread.start();
+		
+		state = 12;
+	}
+	
+	private void open_trashgame(){
+		System.out.println("In trash");
+		this.getContentPane().remove(P3);
+		tp.thread.start();
+		this.getContentPane().add(ttp);
+		state = 5;
+	}
+	
+	private void open_Stage4() {
+		System.out.println("In Stage4");
+		//pap.setVisible(false);
+		//this.getContentPane().remove(pap);
+		P4.thread.start();
+		mp.setIndex(4);
+		mp.repaint();
+		this.getContentPane().add(P4);
+	}
 	
 	private void open_Win() {
 		System.out.println("In Win");
@@ -188,7 +229,7 @@ public class GameStage extends JFrame implements Runnable
 	}
 	private void open_Lose() {
 		System.out.println("In Lose");
-		//this.getContentPane().remove(vp);
+		//this.getContentPane().remove(pap);
 		
 		lose.thread.start();
 		//mp.setIndex(0);

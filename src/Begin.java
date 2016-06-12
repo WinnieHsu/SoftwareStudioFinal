@@ -182,7 +182,7 @@ public class Begin extends JPanel implements Runnable
 				repaint();
 				isEnding = true;
 				try {
-			    	Thread.sleep(30);
+			    	Thread.sleep(3000);
 			    } 
 			    catch(InterruptedException e) {}
 				//state=0;

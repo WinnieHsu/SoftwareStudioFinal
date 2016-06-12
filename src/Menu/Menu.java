@@ -44,7 +44,7 @@ public class Menu extends JPanel implements ActionListener {
 	
 	public void setLabel() {
 		label_game_name_English = new JLabel("Hao Chuan Wants to Call You But He Won't Say", SwingConstants.CENTER);
-		label_game_name_English.setBounds(50, 50, 800, 60);
+		label_game_name_English.setBounds(50, 20, 800, 60);
 		label_game_name_English.setFont(new Font("新細明體", 10, 35));
 		label_game_name_English.setOpaque(true);
 		this.add(label_game_name_English);

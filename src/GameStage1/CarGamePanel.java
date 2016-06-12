@@ -33,6 +33,8 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 	private Car blue_car;
 	private Car truck;
 	
+	public boolean alive;
+	
 	public Thread thread; 
 	
 	public CarGamePanel() {
@@ -215,7 +217,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
     @Override
 	public  void run(){
 		repaint();
-		while(stage <= 3) {		
+		while(stage < 3) {		
 			if(stage == 1)
 			{		
 				
@@ -239,6 +241,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 				replay();
 			}
 		}
+		alive = false;
 		//exit();
     }
 	
@@ -406,6 +409,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
         add(label_time);
         
         
+        alive = true;
         direction = "right";
         stage = 2;
         

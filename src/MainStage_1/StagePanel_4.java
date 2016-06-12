@@ -29,6 +29,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 	
 	private character ch;
 	
+	public boolean alive;
 	public Thread thread;
 	
 	public StagePanel_4() {
@@ -152,6 +153,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
         character_y = 350;
         destination_x = 830;
         destination_y = 350;
+        alive = true;
         
         ch = new character("materials/character");
         
