@@ -1,6 +1,5 @@
 package Pacman;
 
-//import TrashThrow.TrashThrow;
 import Menu.Menu;
 
 import javax.swing.JFrame;
@@ -17,10 +16,17 @@ public class Main {
 		frame.setBackground(Color.CYAN);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		PacMan pacman = new PacMan(frame);
-		pacman.thread.start();
+		
+		
+		PacManPanel pacman = new PacManPanel();
+		frame.add(pacman);
 		//Thread pm_thread = new Thread(pacman);
-		//pm_thread.start();
+		pacman.thread.start();
+		
+		
+		/*PacMan pacman = new PacMan(frame);
+		Thread pm_thread = new Thread(pacman);
+		pm_thread.start();*/
 		/*Menu menu = new Menu(frame);
 		frame.add(menu);*/
 		/*TrashThrow trash_throw = new TrashThrow(frame);

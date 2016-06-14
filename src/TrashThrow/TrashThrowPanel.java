@@ -1,44 +1,82 @@
 package TrashThrow;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.ActionListener;
 
-public class TrashThrowPanel extends JPanel implements KeyListener {
+import java.awt.image.BufferedImage;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.imageio.ImageIO;
+
+import java.io.File;
+import java.io.IOException;
+
+import java.util.Random;
+
+public class TrashThrowPanel extends JPanel implements KeyListener, Runnable, ActionListener {
 	
-	private static TrashThrow trash_throw;
 	private static final long serialVersionUID = 1L;
 	protected JLabel label;
 	private JLabel[] label_trash = new JLabel[5];
 	private int trash_x = 420, trash_y = 490;
 	private int[] trash_vertical_path = new int[350];
-	private int count = 0;
 	private TrashVirticalMoving tv_moving;
-	public Thread thread;
-	public boolean alive;
 	
-	public TrashThrowPanel(TrashThrow trash_throw) {
-		this.trash_throw = trash_throw;
+	protected BufferedImage[] image_trash_can = new BufferedImage[5];
+	protected BufferedImage[] image_trash = new BufferedImage[5];
+	private int points = 0;
+	protected int trash_number = 0;
+	protected boolean is_throwed = true;
+	private Random random = new Random();
+	
+	private JButton start;
+	private boolean pressed_start;
+	public boolean alive;
+	public Thread thread;
+	
+	public TrashThrowPanel() {
 		this.setBounds(0, 0, 900, 550);
 		this.setLayout(null);		
 		setLabel();
 		setVerticalPath();
-		tv_moving = new TrashVirticalMoving();
+		start = new JButton();
+    	start.setText("Start");
+    	start.setFont(new Font("Serif",Font.ITALIC+Font.BOLD,40));
+        start.setBounds(350, 180, 200, 100);
+        start.addActionListener(this);
+    	add(start);
+		
+    	pressed_start = false;
 		alive = true;
-        setFocusable(true);
+		thread = new Thread(this);
+		setFocusable(true);
     	requestFocus();
         addKeyListener(this);
-        
 	}
 	
 	public void setLabel() {
-		label = new JLabel("Score:  " + this.trash_throw.getPoints(), SwingConstants.CENTER);
+		
+		try {
+			for (int i=0; i<5; i++) {
+				String str = "materials/TrashThrow/trash_can" + i + ".png";
+				image_trash_can[i] = ImageIO.read(new File(str));
+				str = "materials/TrashThrow/trash" + i + ".png";
+				image_trash[i] = ImageIO.read(new File(str));
+			}
+		} catch (IOException e) {
+			System.out.println("No Picture");
+		}
+		
+		label = new JLabel("Score:  " + this.getPoints(), SwingConstants.CENTER);
 		label.setBounds (720, 0, 180, 60);
 		Font font = new Font(Font.DIALOG_INPUT, Font.ITALIC, 25);
 		label.setFont(font);
@@ -71,7 +109,6 @@ public class TrashThrowPanel extends JPanel implements KeyListener {
 	}
 	
 	public void keyPressed(KeyEvent event) {
-		System.out.println("asdfgh");
 		switch (event.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 				trash_x = trash_x - 8;
@@ -95,53 +132,55 @@ public class TrashThrowPanel extends JPanel implements KeyListener {
 		}
 		public void run() {
 			boolean is_first = true;
-			while (trash_throw.getPoints() < 8) {
-				int num = 0;
-				trash_x = 420;
-				trash_y = 490;
-				if (is_first == true) {
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+			while (getPoints() < 8) {
+				if(pressed_start == true)
+				{
+					int num = 0;
+					trash_x = 420;
+					trash_y = 490;
+					if (is_first == true) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						is_first = false;
 					}
-					is_first = false;
-				}
-				while (num != 350) {
-					trash_y = trash_y + trash_vertical_path[num];
-					repaint();
-					num++;
-					try {
-						Thread.sleep(7);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+					while (num != 350) {
+						trash_y = trash_y + trash_vertical_path[num];
+						repaint();
+						num++;
+						try {
+							Thread.sleep(7);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
-				}
-				trash_throw.is_throwed = true;
-				if (trash_throw.trash_number == 0) {
-					if (trash_x >= 20 && trash_x <= 160) {
-						trash_throw.addPoints();
-					}
-				} else if (trash_throw.trash_number == 1) {
-					if (trash_x >= 200 && trash_x <= 320) {
-						trash_throw.addPoints();
-					}
-				} else if (trash_throw.trash_number == 2) {
-					if (trash_x >= 360 && trash_x <= 530) {
-						trash_throw.addPoints();
-					}
-				} else if (trash_throw.trash_number == 3) {
-					if (trash_x >= 540 && trash_x <= 680) {
-						trash_throw.addPoints();
-					}
-				} else {
-					if (trash_x >= 680 && trash_x <= 820) {
-						trash_throw.addPoints();
+					is_throwed = true;
+					if (trash_number == 0) {
+						if (trash_x >= 20 && trash_x <= 160) {
+							addPoints();
+						}
+					} else if (trash_number == 1) {
+						if (trash_x >= 200 && trash_x <= 320) {
+							addPoints();
+						}
+					} else if (trash_number == 2) {
+						if (trash_x >= 360 && trash_x <= 530) {
+							addPoints();
+						}
+					} else if (trash_number == 3) {
+						if (trash_x >= 540 && trash_x <= 680) {
+							addPoints();
+						}
+					} else {
+						if (trash_x >= 680 && trash_x <= 820) {
+							addPoints();
+						}
 					}
 				}
 			}
-			alive = false;
-			//removeKeyListener(this);
+				
 		}
 	}
 	
@@ -164,14 +203,54 @@ public class TrashThrowPanel extends JPanel implements KeyListener {
 		}
 	}
 	
+	public int getPoints() {
+		return points;
+	}
+	
+	public void addPoints() {
+		points = points + 1;
+		label.setText("Score:  " + getPoints());
+	}
+	
+	public void run() {
+		tv_moving = new TrashVirticalMoving();
+		while (getPoints() < 8) {
+			if(pressed_start == true)
+			{
+				if (is_throwed == true) {
+					trash_number = random.nextInt(5);
+					is_throwed = false;
+				}
+				
+			}
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		alive = false;
+		setFocusable(false);
+		removeKeyListener(this);
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(trash_throw.image_trash_can[0], 20, 270, 200, 200, null);
-		g.drawImage(trash_throw.image_trash_can[1], 200, 260, 180, 180, null);
-		g.drawImage(trash_throw.image_trash_can[2], 360, 250, 230, 230, null);
-		g.drawImage(trash_throw.image_trash_can[3], 540, 260, 200, 200, null);
-		g.drawImage(trash_throw.image_trash_can[4], 680, 250, 200, 200, null);
-		g.drawImage(trash_throw.image_trash[trash_throw.trash_number], trash_x, trash_y, 60, 60, null);
+		g.drawImage(image_trash_can[0], 20, 270, 200, 200, null);
+		g.drawImage(image_trash_can[1], 200, 260, 180, 180, null);
+		g.drawImage(image_trash_can[2], 360, 250, 230, 230, null);
+		g.drawImage(image_trash_can[3], 540, 260, 200, 200, null);
+		g.drawImage(image_trash_can[4], 680, 250, 200, 200, null);
+		g.drawImage(image_trash[trash_number], trash_x, trash_y, 60, 60, null);
 	}
+	public void actionPerformed(ActionEvent e){
+		if (e.getSource() == start){		
+			pressed_start = true;
+			repaint();
+			start.setEnabled(false);
+			remove(start);
+			
+		}
+    }
 	
 }

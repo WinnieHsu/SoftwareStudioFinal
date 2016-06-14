@@ -11,9 +11,9 @@ public class PacManMoving implements Runnable {
 	}
 	
 	public void run() {
-		while (pmp.pacman.getPoints() != 8) {
+		while (pmp.getPoints() != 8) {
 			int count = 0;
-			switch (pmp.pacman.pacman_state) {
+			switch (pmp.pacman_state) {
 				case UP:
 					if (pmp.pm_y != 0 && pmp.obstacle_state[pmp.pm_x/25][(pmp.pm_y/25)-1] == ObstacleState.UNLOCK) {
 						while (count != 25) {

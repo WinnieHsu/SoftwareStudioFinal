@@ -140,7 +140,7 @@ public class MonsterMoving implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		pmp.pacman.addPoints();
+		pmp.addPoints();
 	}
 	
 }

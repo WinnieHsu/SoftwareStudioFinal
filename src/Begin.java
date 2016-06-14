@@ -82,7 +82,7 @@ public class Begin extends JPanel implements Runnable
 			if(state==0){
 				//AudioPlayer.player.start(sound);
 				try {
-			    	Thread.sleep(7000);
+			    	Thread.sleep(700);
 			    } 
 			    catch(InterruptedException e) {}
 				state=1;
@@ -91,7 +91,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=1;
 				repaint();
 				try {
-			    	Thread.sleep(6000);
+			    	Thread.sleep(600);
 			    } 
 			    catch(InterruptedException e) {}
 				state=2;
@@ -100,7 +100,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=2;
 				repaint();
 				try {
-			    	Thread.sleep(3500);
+			    	Thread.sleep(350);
 			    } 
 			    catch(InterruptedException e) {}
 				state=3;
@@ -109,7 +109,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=3;
 				repaint();
 				try {
-			    	Thread.sleep(4000);
+			    	Thread.sleep(400);
 			    } 
 			    catch(InterruptedException e) {}
 				state=4;
@@ -118,7 +118,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=4;
 				repaint();
 				try {
-			    	Thread.sleep(500);
+			    	Thread.sleep(50);
 			    } 
 			    catch(InterruptedException e) {}
 				state=10;
@@ -127,7 +127,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=10;
 				repaint();
 				try {
-			    	Thread.sleep(500);
+			    	Thread.sleep(50);
 			    } 
 			    catch(InterruptedException e) {}
 				state=11;
@@ -136,7 +136,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=11;
 				repaint();
 				try {
-			    	Thread.sleep(500);
+			    	Thread.sleep(50);
 			    } 
 			    catch(InterruptedException e) {}
 				state=5;
@@ -145,7 +145,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=5;
 				repaint();
 				try {
-			    	Thread.sleep(1000);
+			    	Thread.sleep(100);
 			    } 
 			    catch(InterruptedException e) {}
 				state=6;
@@ -154,7 +154,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=6;
 				repaint();
 				try {
-			    	Thread.sleep(3500);
+			    	Thread.sleep(350);
 			    } 
 			    catch(InterruptedException e) {}
 				state=7;
@@ -163,7 +163,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=7;
 				repaint();
 				try {
-			    	Thread.sleep(800);
+			    	Thread.sleep(80);
 			    } 
 			    catch(InterruptedException e) {}
 				state=8;
@@ -172,7 +172,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=8;
 				repaint();
 				try {
-			    	Thread.sleep(300);
+			    	Thread.sleep(30);
 			    } 
 			    catch(InterruptedException e) {}
 				state=9;
@@ -182,7 +182,7 @@ public class Begin extends JPanel implements Runnable
 				repaint();
 				isEnding = true;
 				try {
-			    	Thread.sleep(3000);
+			    	Thread.sleep(300);
 			    } 
 			    catch(InterruptedException e) {}
 				//state=0;
