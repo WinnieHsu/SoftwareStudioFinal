@@ -151,6 +151,7 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 	
 	public void run() {
 		boolean open = true;;
+		repaint();
 		while(open)
 		{
 			if(pressed_start == true)

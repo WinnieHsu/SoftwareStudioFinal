@@ -115,8 +115,11 @@ public class GameStage extends JFrame implements Runnable
 			if(tp.alive == false && state == 5) {
 				open_Stage4();
 			}
-			if(win.alive == false && state == 10) {
+			if(P4.alive == false && state == 6) {
 				open_pacman();
+			}
+			if(pap.alive == false && state == 7) {
+				open_Win();
 			}
 			/*
 			if(pap.alive == false && state == 5) {
@@ -191,13 +194,7 @@ public class GameStage extends JFrame implements Runnable
 		this.getContentPane().add(P3);
 		state = 4;
 	}
-	private void open_pacman() {
-		System.out.println("In pacman");
-		this.getContentPane().remove(win);
-		pap.thread.start();
-		
-		state = 12;
-	}
+	
 	
 	private void open_trashgame(){
 		System.out.println("In trash");
@@ -217,9 +214,17 @@ public class GameStage extends JFrame implements Runnable
 		state = 6;
 	}
 	
+	private void open_pacman() {
+		System.out.println("In pacman");
+		this.getContentPane().remove(P4);
+		pap.thread.start();
+		this.getContentPane().add(pap);
+		
+		state = 7;
+	}
 	private void open_Win() {
 		System.out.println("In Win");
-		this.getContentPane().remove(P3);
+		this.getContentPane().remove(pap);
 		
 		win.thread.start();
 		mp.setIndex(0);

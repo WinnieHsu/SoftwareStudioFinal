@@ -150,7 +150,7 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 			remove_button();
 			moveout();
 			try {
-				Thread.sleep(30);
+				Thread.sleep(10);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -168,7 +168,6 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 		if(character_x > destination_x) 
 		{		
 			ch.setcounter(ch.getcounter()+1);
-			System.out.println(ch.getcounter());
 			character_x-=3;
 			if(character_x <= 400)
 				destination_y = 330;

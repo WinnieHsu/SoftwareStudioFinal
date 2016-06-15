@@ -214,6 +214,7 @@ public class TrashThrowPanel extends JPanel implements KeyListener, Runnable, Ac
 	
 	public void run() {
 		tv_moving = new TrashVirticalMoving();
+		repaint();
 		while (getPoints() < 8) {
 			if(pressed_start == true)
 			{

@@ -20,11 +20,13 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 	private Image_mouse garbage;
 	
 	private BufferedImage image_bg;
+	private BufferedImage image_tree;
 	
 	private int character_x;
 	private int character_y;
 	private int destination_x;
 	private int destination_y;
+	private int tree_x;
 	
 	
 	private character ch;
@@ -40,6 +42,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image_bg, 0, 0, null);
+		g.drawImage(image_tree, tree_x, 0, null);
 		g.drawImage(garbage.getImage(), garbage.getX(), garbage.getY(), null);
 		g.drawImage(sprinkler.getImage(), sprinkler.getX(), sprinkler.getY(),null);
 		g.drawImage(pyramidal.getImage(), pyramidal.getX(), pyramidal.getY(), null);
@@ -60,8 +63,10 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 		garbage = new Image_mouse(-50,0,str+"garbage.png");
 		
 		try {
-			File bg = new File(str+"04_Crossroad_oldTree.jpg");	
+			File bg = new File(str+"04_Crossroad.jpg");	
+			File tree = new File(str+"tree.jpg");
 		    image_bg = ImageIO.read(bg);
+		    image_tree = ImageIO.read(tree);
 		}
 		catch(Exception e) {
 			System.out.println("wrong in background");
@@ -107,11 +112,18 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 		}
 		if(e.getY() < 550 && e.getY() > 500 && e.getX() > 650 && e.getX() < 680)
 		{
-			garbage.setX(500);
+			//garbage.setX(500);
 			destination_x = 660;
 			destination_y = 500-ch.getImage_2().getHeight();
 		}
+		if(e.getY() < 410 && e.getY() > 340 && e.getX() > 360 && e.getX() < 370)
+		{
+			//garbage.setX(500);
+			destination_x = 390;
+			destination_y = 300;
+		}
 		System.out.println(e.getX()+" "+e.getY());
+		System.out.println(character_x+" "+character_y);
 		
 		repaint();
 		
@@ -122,8 +134,63 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 		
 	}
 	
-	private void remove() {
-		
+	
+	private void pick() {
+		if(character_x == 660 && character_y == 356)
+		{
+			sprinkler.setX(570);
+			sprinkler.setY(400);
+			moveTotree();
+		}
+		if(character_x == 390 && character_y == 300 )
+		{
+			pyramidal.setX(336);
+			pyramidal.setY(340);
+			moveTowater();
+		}
+	}
+	
+	private void moveTowater() {
+		destination_y = 236;
+		while(character_x > 130 && character_y > 236)
+		{
+			repaint();
+			character_x-=3;
+			character_y--;
+			pyramidal.setX(pyramidal.getX()-3);
+			pyramidal.setY(pyramidal.getY()-1);
+			ch.setcounter(ch.getcounter()+1);
+			try{
+				Thread.sleep(10);
+			}
+			catch(Exception e) {
+				
+			}
+		}
+		moveout();
+	}
+	
+	private void moveTotree() {
+		destination_y = 230;
+		while(character_y > 230 )
+		{
+			repaint();
+			character_y-=2;
+			sprinkler.setY(sprinkler.getY()-2);
+			ch.setcounter(ch.getcounter()+1);
+			try{
+				Thread.sleep(10);
+			}
+			catch(Exception e) {
+				
+			}
+		}
+		tree_x = 1000;
+		sprinkler.setX(1000);
+	}
+	
+	private void moveout() {
+		destination_x = 10;
 	}
 	
 	@Override
@@ -131,7 +198,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 		while(character_x < 900){
 			
 			move();
-			remove();
+			pick();
 			try {
 				Thread.sleep(10);
 			}
@@ -139,7 +206,10 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 				e.printStackTrace();
 			}
 			repaint();
+			if(character_x <= 10)
+				break;
 		}
+		alive = false;
 	}
 	
 	private void initial() {
@@ -153,6 +223,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
         character_y = 350;
         destination_x = 830;
         destination_y = 350;
+        tree_x = 580;
         alive = true;
         
         ch = new character("materials/character");
