@@ -65,7 +65,7 @@ public class StagePanel_5 extends JPanel implements Runnable{
 			character_x --;
 			ch.setcounter(ch.getcounter()+1);
 			try {
-				Thread.sleep(40);
+				Thread.sleep(50);
 			}
 			catch(Exception e) {
 				e.printStackTrace();

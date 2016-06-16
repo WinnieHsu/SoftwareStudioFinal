@@ -55,6 +55,11 @@ public class Begin extends JPanel implements Runnable
 			
 			image_bg.add( ImageIO.read(new File("materials/BeginPic/04-1.jpg")) );
 			image_bg.add( ImageIO.read(new File("materials/BeginPic/04-2.jpg")) );
+			
+			image_bg.add( ImageIO.read(new File("materials/BeginPic/rules.png")) );
+			image_bg.add( ImageIO.read(new File("materials/BeginPic/rules1.png")) );
+			image_bg.add( ImageIO.read(new File("materials/BeginPic/rules2.png")) );
+			image_bg.add( ImageIO.read(new File("materials/BeginPic/rules3.png")) );
 		}
 		catch(IOException ex){
 			System.out.println("CANNOT load images in Begin Panel");
@@ -82,7 +87,7 @@ public class Begin extends JPanel implements Runnable
 			if(state==0){
 				//AudioPlayer.player.start(sound);
 				try {
-			    	Thread.sleep(3000);
+			    	Thread.sleep(2500);
 			    } 
 			    catch(InterruptedException e) {}
 				state=1;
@@ -163,7 +168,7 @@ public class Begin extends JPanel implements Runnable
 				bg_index=7;
 				repaint();
 				try {
-			    	Thread.sleep(800);
+			    	Thread.sleep(600);
 			    } 
 			    catch(InterruptedException e) {}
 				state=8;
@@ -180,13 +185,55 @@ public class Begin extends JPanel implements Runnable
 			if(state==9){
 				bg_index=9;
 				repaint();
-				isEnding = true;
 				try {
-			    	Thread.sleep(3000);
+			    	Thread.sleep(2000);
 			    } 
 			    catch(InterruptedException e) {}
-				//state=0;
+				state=12;
 			}
+			if(state==12){
+				bg_index=12;
+				repaint();
+				try {
+			    	Thread.sleep(25000);
+			    } 
+			    catch(InterruptedException e) {}
+				state=13;
+			}
+			if(state==13){
+				bg_index=13;
+				repaint();
+				try {
+			    	Thread.sleep(400);
+			    } 
+			    catch(InterruptedException e) {}
+				state=14;
+			}
+			if(state==14){
+				bg_index=14;
+				repaint();
+				try {
+			    	Thread.sleep(150);
+			    } 
+			    catch(InterruptedException e) {}
+				state=15;
+			}
+			if(state==15){
+				bg_index=15;
+				repaint();
+				try {
+			    	Thread.sleep(80);
+			    } 
+			    catch(InterruptedException e) {}
+				bg_index=9;
+				repaint();
+				try {
+			    	Thread.sleep(1500);
+			    } 
+			    catch(InterruptedException e) {}
+				isEnding = true;
+			}
+			
 			repaint();
 		}
 		System.out.println("begining over");

@@ -150,7 +150,7 @@ public class StagePanel_1 extends JPanel implements Runnable, ActionListener {
 			remove_button();
 			moveout();
 			try {
-				Thread.sleep(10);
+				Thread.sleep(50);
 			}
 			catch(Exception e) {
 				e.printStackTrace();

@@ -165,7 +165,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 			pyramidal.setY(pyramidal.getY()-1);
 			ch.setcounter(ch.getcounter()+1);
 			try{
-				Thread.sleep(10);
+				Thread.sleep(50);
 			}
 			catch(Exception e) {
 				
@@ -184,7 +184,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 			sprinkler.setY(sprinkler.getY()-2);
 			ch.setcounter(ch.getcounter()+1);
 			try{
-				Thread.sleep(10);
+				Thread.sleep(50);
 			}
 			catch(Exception e) {
 				
@@ -206,7 +206,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 			move();
 			pick();
 			try {
-				Thread.sleep(10);
+				Thread.sleep(50);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
