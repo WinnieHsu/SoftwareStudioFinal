@@ -12,15 +12,16 @@ import java.awt.Color;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PacManPanel extends JPanel implements KeyListener, Runnable, ActionListener {
 	
 	private static final long serialVersionUID = 1L;
-	//protected PacMan pacman;
-	protected JLabel label;
+	protected JLabel score_label, timer_label;
 	protected int pm_x = 0, pm_y = 0;
 	protected int[] m_x = new int[8];
 	protected int[] m_y = new int [8];
@@ -32,8 +33,6 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 	protected boolean mouth_open = false;
 	protected boolean[] monster_exist = new boolean[8];
 	
-	
-	
 	protected BufferedImage image_block, image_block_lock, image_rectangle;
 	protected BufferedImage image_pacman_origin;
 	protected BufferedImage image_pacman_up;
@@ -43,17 +42,24 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 	protected BufferedImage[] image_monster = new BufferedImage[8];
 	protected CharacterState pacman_state;
 	private int points = 0;
-	//protected int pm_x, pm_y;
 	public boolean alive;
 	
 	private JButton start;
 	private boolean pressed_start;
 	public Thread thread;
 	
+	private Listener listen;
+    private Timer timer;
+    private int delay;
+    private int sec;
+	private int start_time = 30;
+	boolean flag = true;
+	
 	public PacManPanel() {
 		
 		alive = true;
 		pressed_start = false;
+		delay = 1;
 		start = new JButton();
     	start.setText("Start");
     	start.setFont(new Font("Serif",Font.ITALIC+Font.BOLD,40));
@@ -77,18 +83,29 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 			System.out.println("No Picture");
 		}
 		
+		this.addListener(new Listener() {
+            @Override
+            public void timeOut() {
+                //處理TimeOut事件
+            	
+            }
+            @Override
+            public void onChange(long sec) {
+            	
+            }
+        });
+		
+		
 		thread = new Thread(this);
-		//this.pacman = pacman;
 		this.pacman_state = CharacterState.ORIGIN;
 		this.setBounds(0, 0, 900, 550);
 		this.setLayout(null);
 		setLabel();
 		obstacle_state = new ObstacleState[36][22];
 		obstacle_state_record = new ObstacleStateRecord(this);
-		//pacman_moving = new PacManMoving(this);
 		m_x[0] = 10*25;
 		m_y[0] = 9*25;
-		m_x[1] = 30*25;
+		m_x[1] = 29*25;
 		m_y[1] = 3*25;
 		m_x[2] = 0*25;
 		m_y[2] = 20*25;
@@ -132,12 +149,18 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 	public void keyReleased(KeyEvent event) {	}
 	
 	public void setLabel() {
-		label = new JLabel("Score:  " + this.getPoints());
+		score_label = new JLabel("Score:  " + this.getPoints());
 		Font font = new Font(Font.DIALOG_INPUT, Font.ITALIC, 20);
-		label.setFont(font);
-		label.setForeground(Color.WHITE);
-		label.setBounds (770, 15, 120, 40);
-		this.add(label);
+		score_label.setFont(font);
+		score_label.setForeground(Color.WHITE);
+		score_label.setBounds (770, 15, 120, 40);
+		this.add(score_label);
+		
+		timer_label = new JLabel("Time: " + start_time +  " s");
+		timer_label.setFont(font);
+		timer_label.setForeground(Color.WHITE);
+		timer_label.setBounds (770, 70, 120, 55);
+		this.add(timer_label);
 	}
 	
 	public int getPoints() {
@@ -146,7 +169,7 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 	
 	public void addPoints() {
 		points = points + 1;
-		label.setText("Score:  " + getPoints());
+		score_label.setText("Score:  " + getPoints());
 	}
 	
 	public void run() {
@@ -158,6 +181,7 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 			{
 				if(create == 0)
 				{
+					startTimer(start_time);
 					pacman_moving = new PacManMoving(this);
 					for (int i=0; i<8; i++) {
 						monster_state[i] = CharacterState.ORIGIN;
@@ -182,7 +206,6 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 		}
 		this.setBackground(null);
 		repaint();
-		System.out.println("shit");
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -197,6 +220,7 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 			}
 		}
 		g.drawImage(image_rectangle, 30*25, 0, 6*25, 3*25, null);
+		g.drawImage(image_rectangle, 30*25, 3*25, 6*25, 3*25, null);
 		if (pacman_state == CharacterState.ORIGIN || mouth_open == false) {
 			g.drawImage(image_pacman_origin, pm_x, pm_y, 25, 25, null);
 		} else if (pacman_state == CharacterState.UP) {
@@ -221,6 +245,53 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 			start.setEnabled(false);
 			remove(start);
 		}
+    }
+	
+	public interface Listener{
+        public void timeOut();
+        public void onChange(long sec);
+    }
+	
+	public void addListener(Listener lis){
+        listen = lis;
+    }
+	
+	public void startTimer(int s){
+        if(timer == null){
+            timer = new Timer();
+            sec = s;
+            TimerTask task = new TimerTask(){
+                public void run(){
+                	if (sec == 0) {
+                		flag = false;
+                	} else  if (flag == true) {
+                		sec = sec - delay;
+                	} else {
+                		timer_label.setForeground(Color.RED);
+                		sec = sec + delay;
+                	}
+                	if (sec != 0) {
+                		timer_label.setText("Time: " + String.valueOf(sec) + " s");
+                	} else {
+                		timer_label.setText("你被騙了");
+                	}
+                    if (listen != null) {
+                        listen.onChange(sec);
+                    }
+                    /*if (sec <= 0) {
+                    	if(timer != null){
+                            timer.cancel();
+                            timer = null;
+                        }
+                        if (listen != null) {
+                            listen.timeOut();
+                        }
+                    }*/
+                }
+            };
+            long delaySec = delay * 1000;
+            timer.schedule(task, delaySec, delaySec);
+        }
     }
 	
 }

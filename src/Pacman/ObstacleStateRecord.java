@@ -18,11 +18,14 @@ public class ObstacleStateRecord {
 		pmp.obstacle_state[30][0] = ObstacleState.LOCK;  // rectangle
 		pmp.obstacle_state[30][1] = ObstacleState.LOCK;
 		pmp.obstacle_state[30][2] = ObstacleState.LOCK;
-		pmp.obstacle_state[31][2] = ObstacleState.LOCK;
-		pmp.obstacle_state[32][2] = ObstacleState.LOCK;
-		pmp.obstacle_state[33][2] = ObstacleState.LOCK;
-		pmp.obstacle_state[34][2] = ObstacleState.LOCK;
-		pmp.obstacle_state[35][2] = ObstacleState.LOCK;
+		pmp.obstacle_state[30][3] = ObstacleState.LOCK;
+		pmp.obstacle_state[30][4] = ObstacleState.LOCK;
+		pmp.obstacle_state[30][5] = ObstacleState.LOCK;
+		pmp.obstacle_state[31][5] = ObstacleState.LOCK;
+		pmp.obstacle_state[32][5] = ObstacleState.LOCK;
+		pmp.obstacle_state[33][5] = ObstacleState.LOCK;
+		pmp.obstacle_state[34][5] = ObstacleState.LOCK;
+		pmp.obstacle_state[35][5] = ObstacleState.LOCK;
 		
 		
 		
