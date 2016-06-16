@@ -69,7 +69,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 		}
 		else if(stage == 2)
 		{
-			g.drawImage(image_begin, 100, 50, null);
+			g.drawImage(image_begin, 0, 0, null);
 		}
 		else if(stage == 3)
 		{
@@ -363,7 +363,7 @@ public class CarGamePanel extends JPanel implements Runnable, KeyListener, Actio
 		str_truck_mirror = "materials/CarGame/truck_left.jpg";
 		str_blue_car = "materials/CarGame/blue_car.jpg";
 		str_blue_car_mirror = "materials/CarGame/blue_car_right.jpg";
-		str_begin = "materials/CarGame/farari.jpg";
+		str_begin = "materials/CarGame/western-trucks-yellow.jpg";
 		str_over = "materials/CarGame/over.png";
 		
 		truck = new Car(400,300,str_truck,str_truck_mirror);
