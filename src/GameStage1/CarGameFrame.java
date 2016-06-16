@@ -7,7 +7,7 @@ import javax.swing.*;
 public class CarGameFrame extends JFrame{
 	
 	private static CarGamePanel CarGP;
-	private static TextPanel TP;
+	
 	
 	public CarGameFrame() {
 		CarGP = new CarGamePanel();

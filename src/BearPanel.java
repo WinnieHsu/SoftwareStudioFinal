@@ -56,6 +56,10 @@ public class BearPanel extends JPanel implements Runnable
 		bear_index = i;
 	}
 	
+	public int getIndex() {
+		return bear_index;
+	}
+	
 	@Override
 	public void run(){
 		/*while(frame.getScore()<frame.getWinScore()){

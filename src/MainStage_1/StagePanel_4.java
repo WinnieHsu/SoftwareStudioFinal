@@ -26,11 +26,14 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 	private int character_y;
 	private int destination_x;
 	private int destination_y;
+	
+	private boolean[] trigger_list;
 	private int tree_x;
 	
 	
 	private character ch;
 	
+	public int score;
 	public boolean alive;
 	public Thread thread;
 	
@@ -108,7 +111,8 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 		{
 			garbage.setX(500);
 			destination_x = 660;
-			destination_y = 300;	
+			destination_y = 300;
+			trigger_list[0] = true;
 		}
 		if(e.getY() < 550 && e.getY() > 500 && e.getX() > 650 && e.getX() < 680)
 		{
@@ -167,6 +171,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 				
 			}
 		}
+		trigger_list[2] = true;
 		moveout();
 	}
 	
@@ -187,6 +192,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 		}
 		tree_x = 1000;
 		sprinkler.setX(1000);
+		trigger_list[1] = true;
 	}
 	
 	private void moveout() {
@@ -210,6 +216,17 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 				break;
 		}
 		alive = false;
+		check_trigger();
+	}
+	
+	private void check_trigger(){
+		int i;
+		for(i=0; i < 3; i++){
+			if(trigger_list[i]  == false)
+			{
+				score++;
+			}
+		}
 	}
 	
 	private void initial() {
@@ -224,7 +241,12 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
         destination_x = 830;
         destination_y = 350;
         tree_x = 580;
+        score = 0;
         alive = true;
+        trigger_list = new boolean[3];
+        trigger_list[0] = false;
+        trigger_list[1] = false;
+        trigger_list[2] = false;
         
         ch = new character("materials/character");
         

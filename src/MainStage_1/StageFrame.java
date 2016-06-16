@@ -11,19 +11,23 @@ public class StageFrame extends JFrame{
 	private static StagePanel_2 P2;
 	private static StagePanel_3 P3;
 	private static StagePanel_4 P4;
+	private static StagePanel_5 P5;
 	private static VolleyPanel vp;
 	private static TrashThrowPanel tp;
 	private static PacManPanel pp; 
+	
 	
 	public StageFrame() {
 		//vp = new VolleyPanel();
 		//tp = new TrashThrowPanel();
 		//pp = new PacManPanel();
-		P4 = new StagePanel_4();
+		P5 = new StagePanel_5();
+		//P4 = new StagePanel_4();
+		//tp.thread.start();
 		//pp.thread.start();
 		//vp.thread.start();
-		P4.thread.start();
-		getContentPane().add(P4);
+		P5.thread.start();
+		getContentPane().add(P5);
 		setTitle("Stage");
 		setLayout(null);
 		setSize(1000,600);

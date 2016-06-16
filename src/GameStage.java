@@ -28,17 +28,16 @@ public class GameStage extends JFrame implements Runnable
 	private static StagePanel_2 P2;
 	private static StagePanel_3 P3;
 	private static StagePanel_4 P4;
+	private static StagePanel_5 P5;
 	Thread game_thread;
 	Thread bear_thread;
 	
 	private int state;
 	private int score, winScore;
-	private boolean pap_boolean;
-
+	
 	public GameStage(){
 		score = 0; winScore = 20;
 		state=-1;
-		pap_boolean = true;
 		
 		this.setTitle("Demo");
 		this.setLayout(null);
@@ -61,6 +60,7 @@ public class GameStage extends JFrame implements Runnable
 		P2 = new StagePanel_2();
 		P3 = new StagePanel_3();
 		P4 = new StagePanel_4();
+		P5 = new StagePanel_5();
 		mp = new MapPanel(this);
 		bp = new BearPanel(this);
 		Begining();	
@@ -119,7 +119,14 @@ public class GameStage extends JFrame implements Runnable
 				open_pacman();
 			}
 			if(pap.alive == false && state == 7) {
-				open_Win();
+				open_Stage5();
+			}
+			if(P5.alive == false && state == 8) {
+				
+				if(bp.getIndex() < 3)
+					open_Win();
+				else
+					open_Lose();
 			}
 			/*
 			if(pap.alive == false && state == 5) {
@@ -216,25 +223,36 @@ public class GameStage extends JFrame implements Runnable
 	
 	private void open_pacman() {
 		System.out.println("In pacman");
+		bp.setIndex(P1.score+P4.score);
+		bp.repaint();
 		this.getContentPane().remove(P4);
 		pap.thread.start();
 		this.getContentPane().add(pap);
 		
 		state = 7;
 	}
-	private void open_Win() {
-		System.out.println("In Win");
+	
+	private void open_Stage5() {
+		System.out.println("In stage5");
 		this.getContentPane().remove(pap);
-		
-		win.thread.start();
 		mp.setIndex(0);
 		mp.repaint();
+		P5.thread.start();
+		this.getContentPane().add(P5);
+		state = 8;
+	}
+	
+	private void open_Win() {
+		System.out.println("In Win");
+		this.getContentPane().remove(P5);
+		
+		win.thread.start();
 		this.getContentPane().add(win);
 		state = 10;
 	}
 	private void open_Lose() {
 		System.out.println("In Lose");
-		//this.getContentPane().remove(pap);
+		this.getContentPane().remove(P5);
 		
 		lose.thread.start();
 		//mp.setIndex(0);
