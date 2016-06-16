@@ -208,7 +208,7 @@ public class TrashThrowPanel extends JPanel implements KeyListener, Runnable, Ac
 	}
 	
 	public void addPoints() {
-		points = points + 10;
+		points = points + 1;
 		label.setText("Score:  " + getPoints());
 	}
 	

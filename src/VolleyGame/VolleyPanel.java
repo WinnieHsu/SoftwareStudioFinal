@@ -48,7 +48,7 @@ public class VolleyPanel extends JPanel implements Runnable, KeyListener, Action
     	setFocusable(true);
     	requestFocus();
     	
-    	score = 0; winScore = 70;
+    	score = 0; winScore = 200;
     	isEnding = false;
     	
     	setImage();

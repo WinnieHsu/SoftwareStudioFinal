@@ -120,7 +120,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 			destination_x = 660;
 			destination_y = 500-ch.getImage_2().getHeight();
 		}
-		if(e.getY() < 410 && e.getY() > 340 && e.getX() > 360 && e.getX() < 370)
+		if(e.getY() < 410 && e.getY() > 340 && e.getX() > 350 && e.getX() < 380)
 		{
 			//garbage.setX(500);
 			destination_x = 390;

@@ -39,7 +39,7 @@ public class GameStage extends JFrame implements Runnable
 		score = 0; winScore = 20;
 		state=-1;
 		
-		this.setTitle("Demo");
+		this.setTitle("Hao Chuan wants to call you but he won't say");
 		this.setLayout(null);
 		this.setSize(1200,572);
 		this.setLocation(100,100);
