@@ -213,11 +213,16 @@ public class TrashThrowPanel extends JPanel implements KeyListener, Runnable, Ac
 	}
 	
 	public void run() {
-		tv_moving = new TrashVirticalMoving();
 		repaint();
+		int create = 0;
 		while (getPoints() < 8) {
 			if(pressed_start == true)
 			{
+				if(create == 0)
+				{
+					tv_moving = new TrashVirticalMoving();
+					create = 1;
+				}
 				if (is_throwed == true) {
 					trash_number = random.nextInt(5);
 					is_throwed = false;

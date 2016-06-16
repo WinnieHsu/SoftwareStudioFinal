@@ -150,29 +150,30 @@ public class PacManPanel extends JPanel implements KeyListener, Runnable, Action
 	}
 	
 	public void run() {
-		boolean open = true;;
 		repaint();
-		while(open)
+		int create = 0;
+		while (getPoints() < 8)
 		{
 			if(pressed_start == true)
 			{
-				pacman_moving = new PacManMoving(this);
-				for (int i=0; i<8; i++) {
-					monster_state[i] = CharacterState.ORIGIN;
-					monster_moving[i] = new MonsterMoving(this, i);
-					monster_exist[i] = true;
+				if(create == 0)
+				{
+					pacman_moving = new PacManMoving(this);
+					for (int i=0; i<8; i++) {
+						monster_state[i] = CharacterState.ORIGIN;
+						monster_moving[i] = new MonsterMoving(this, i);
+						monster_exist[i] = true;
+					}
+					create = 1;
 				}
-				open = false;
 			}
-		}
-		
-		while (getPoints() < 8) {
 			try {
 				Thread.sleep(3);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		
 		alive = false;
 		try {
 			Thread.sleep(100);
