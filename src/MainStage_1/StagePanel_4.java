@@ -33,6 +33,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 	
 	private character ch;
 	
+	private boolean out;
 	public int score;
 	public boolean alive;
 	public Thread thread;
@@ -109,20 +110,27 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 	public void	mousePressed(MouseEvent e) {
 		if(e.getY() < 340 && e.getY() > 270 && e.getX() > 590 && e.getX() < 660)
 		{
-			garbage.setX(500);
-			destination_x = 660;
-			destination_y = 300;
-			trigger_list[0] = true;
+			if(out == false)
+			{
+				garbage.setX(500);
+				destination_x = 660;
+				destination_y = 300;
+			    trigger_list[0] = true;
+			}
+			
 		}
 		if(e.getY() < 550 && e.getY() > 500 && e.getX() > 650 && e.getX() < 680)
 		{
-			//garbage.setX(500);
-			destination_x = 660;
-			destination_y = 500-ch.getImage_2().getHeight();
+			if(out == false)
+			{
+				destination_x = 660;
+			    destination_y = 500-ch.getImage_2().getHeight();
+			}
+			
 		}
-		if(e.getY() < 410 && e.getY() > 340 && e.getX() > 350 && e.getX() < 380)
+		if(e.getY() < 410 && e.getY() > 340 && e.getX() > 340 && e.getX() < 370)
 		{
-			//garbage.setX(500);
+			out = true;
 			destination_x = 390;
 			destination_y = 300;
 		}
@@ -196,6 +204,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
 	}
 	
 	private void moveout() {
+		
 		destination_x = 10;
 	}
 	
@@ -242,6 +251,7 @@ public class StagePanel_4 extends JPanel implements Runnable, MouseListener {
         destination_y = 350;
         tree_x = 580;
         score = 0;
+        out = false;
         alive = true;
         trigger_list = new boolean[3];
         trigger_list[0] = false;

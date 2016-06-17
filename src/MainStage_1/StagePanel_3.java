@@ -37,6 +37,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 	
 	public Thread thread;
 	public boolean alive;
+	public int score;
 	
 	public StagePanel_3() {
 		initial();
@@ -139,10 +140,14 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 	private void remove_button() {
 		if(Math.abs(character_x - (paper.getX()+paper.getImage().getIconWidth())) < 3 && trigger_list[0] == true)
 			remove(but_paper);
-		if(Math.abs(character_x - (right_off.getX()+right_off.getImage().getIconWidth())) < 2 && trigger_list[4] == true)
-			remove(but_rightoff);
-		if(Math.abs(character_x - (drink.getX()+ drink.getImage().getIconWidth())) < 3 && trigger_list[2] == true)
+		if(Math.abs(character_x - (right_off.getX()+right_off.getImage().getIconWidth())) < 2)
 		{
+			trigger_list[4] = true;
+			remove(but_rightoff);
+		}
+		if(Math.abs(character_x - (drink.getX()+ drink.getImage().getIconWidth())) < 3)
+		{
+			trigger_list[2] = true;
 			remove(but_drink);			
 		}
 		if(Math.abs(character_x - (can.getX()+ can.getImage().getIconWidth())) < 3 && trigger_list[1] == true)
@@ -167,7 +172,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 				paper.chageOn_off();
 			}
 		}
-		if (e.getSource() == but_can && trigger_list[4] == true){
+		if (e.getSource() == but_can && trigger_list[4] == true && trigger_list[2] == true){
 			if(can.getOn_off() == false)
 			{
 				trigger_list[1] = true;
@@ -180,7 +185,6 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 		if (e.getSource() == but_drink && trigger_list[4] == true) {
 			if(drink.getOn_off() == false)
 			{
-				trigger_list[2] = true;
 			    destination_x = drink.getX()+20; //+ drink.getImage().getIconWidth();
 			    destination_y = drink.getY();
 			    drink.chageOn_off();
@@ -188,7 +192,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 			}
 			
 		}
-		if (e.getSource() == but_leftoff && trigger_list[1] == true && character_x <= 400) {
+		if (e.getSource() == but_leftoff && trigger_list[1] == true && character_x <= 400 && trigger_list[4] == true) {
 			if(left_off.getOn_off() == false)
 			{
 				trigger_list[3] = true;
@@ -201,7 +205,6 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 		if (e.getSource() == but_rightoff) {
 			if(right_off.getOn_off() == false)
 			{
-				trigger_list[4] = true;
 			    destination_x = right_off.getX() + right_off.getImage().getIconWidth();
 			    destination_y = right_off.getY() - right_off.getImage().getIconHeight()/3;
 			    right_off.chageOn_off();
@@ -209,6 +212,9 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 		}
 		
 	}
+	
+	
+
 	
 	@Override
 	public void run() {
@@ -218,7 +224,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 			move();
 			remove_button();
 			try {
-				Thread.sleep(10);
+				Thread.sleep(30/3);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -226,7 +232,19 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
 			repaint();
 		}
 		alive = false;
-		System.out.println("out the thread SP3");
+		check_trigger();
+		
+	}
+	
+	
+	private void check_trigger(){
+		int i;
+		for(i=0; i < 5; i++){
+			if(trigger_list[i]  == false)
+			{
+				score++;
+			}
+		}
 	}
 	
 	private void initial() {
@@ -241,7 +259,7 @@ public class StagePanel_3 extends JPanel implements Runnable, ActionListener {
         destination_x = 850;
         destination_y = 455;
         alive = true;
-        
+        score = 0;
         loadImage();
         trigger_list = new boolean[5];
         setButtons();

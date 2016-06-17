@@ -202,9 +202,10 @@ public class GameStage extends JFrame implements Runnable
 		state = 4;
 	}
 	
-	
 	private void open_trashgame(){
 		System.out.println("In trash");
+		bp.setIndex(P1.score+P3.score);
+		bp.repaint();
 		this.getContentPane().remove(P3);
 		tp.thread.start();
 		this.getContentPane().add(tp);
@@ -223,7 +224,7 @@ public class GameStage extends JFrame implements Runnable
 	
 	private void open_pacman() {
 		System.out.println("In pacman");
-		bp.setIndex(P1.score+P4.score);
+		bp.setIndex(P1.score+P3.score+P4.score);
 		bp.repaint();
 		this.getContentPane().remove(P4);
 		pap.thread.start();
